@@ -33,11 +33,13 @@ public class Movement : MonoBehaviour
     private void FixedUpdate()
     {
         move.x = Input.GetAxisRaw("Horizontal");
+        move.y = Input.GetAxisRaw("Vertical");
         //isGround = Physics2D.OverlapCircle(transform.position + checkforFloorPos, checkforFloorRadio, checkFloorMask);
         rigi.AddForce(move * ForceMove);
         //Same here just as reference.
         //_animator.SetFloat(walksie, Math.Abs(move.x));
         Flipeando(move.x);
+        UpDown(move.y);
     }
 
 
@@ -71,6 +73,21 @@ public class Movement : MonoBehaviour
             localScale.x = -1f;
         }
 
+        transform.localScale = localScale;
+    }
+
+    private void UpDown(float _dirY)
+    {
+        Vector3 localScale = transform.localScale;
+        if (_dirY > 0)
+        {
+            localScale.y = 1f;
+        }
+        else if (_dirY < 0f)
+        {
+            localScale.y = -1f;
+        }
+        
         transform.localScale = localScale;
     }
 }
