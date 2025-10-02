@@ -32,8 +32,8 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        move.x = Input.GetAxisRaw("Horizontal");
-        move.y = Input.GetAxisRaw("Vertical");
+        move.x = Input.GetAxis("Horizontal");
+        move.y = Input.GetAxis("Vertical");
         //isGround = Physics2D.OverlapCircle(transform.position + checkforFloorPos, checkforFloorRadio, checkFloorMask);
         rigi.AddForce(move * ForceMove);
         //Same here just as reference.
@@ -45,13 +45,13 @@ public class Movement : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(_horizonL))
+        if (Input.GetKey(_horizonL))
         {
-            transform.Rotate(0f, 180f, 0f);
+            transform.Rotate(0f, 0f, 0.5f);
         }
-        if (Input.GetKeyDown(_horizonR))
+        if (Input.GetKey(_horizonR))
         {
-            transform.Rotate(0f, -180f,0f);
+            transform.Rotate(0f, 0f,-0.5f);
         }
     }
     
