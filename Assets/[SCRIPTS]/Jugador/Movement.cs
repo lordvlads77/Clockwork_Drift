@@ -90,4 +90,28 @@ public class Movement : MonoBehaviour
         
         transform.localScale = localScale;
     }
+    
+    
+    private float originalForceMove;
+
+    private void Awake()
+    {
+        originalForceMove = ForceMove;
+    }
+
+
+    public void ApplySpeedModifier(float factor, float duration)
+    {
+        ForceMove = originalForceMove * factor;
+        StopAllCoroutines(); 
+        StartCoroutine(RestoreSpeedAfter(duration));
+    }
+
+    private System.Collections.IEnumerator RestoreSpeedAfter(float time)
+    {
+        yield return new WaitForSeconds(time);
+        ForceMove = originalForceMove;
+    }
+
+    
 }
