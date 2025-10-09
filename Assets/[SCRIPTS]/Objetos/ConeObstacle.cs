@@ -32,7 +32,7 @@ public class ConeObstacle : MonoBehaviour
             hasBeenHit = true;
 
             Rigidbody2D playerRb = other.GetComponent<Rigidbody2D>();
-            Movement playerMove = other.GetComponent<Movement>();
+            //Movement playerMove = other.GetComponent<Movement>();
             
             Vector2 knockDir = (playerRb.position - (Vector2)transform.position).normalized;
             
@@ -41,10 +41,10 @@ public class ConeObstacle : MonoBehaviour
                 playerRb.AddForce(knockDir * recoilForce, ForceMode2D.Impulse);
             }
             
-            if (playerMove != null)
+            /*if (playerMove != null)
             {
                 playerMove.ApplySpeedModifier(speedReductionFactor, slowDuration);
-            }
+            }*/
             
             rb.AddForce(-knockDir * conePushForce, ForceMode2D.Impulse);
             

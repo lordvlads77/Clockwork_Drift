@@ -7585,8 +7585,8 @@ PositionConstraint:
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
   m_Weight: 1
-  m_TranslationAtRest: {x: -10.7122, y: -8.484, z: -10}
-  m_TranslationOffset: {x: 0, y: 0.0030002594, z: 0}
+  m_TranslationAtRest: {x: -10.7122, y: -8.481, z: -10}
+  m_TranslationOffset: {x: 0, y: 0, z: 0}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
