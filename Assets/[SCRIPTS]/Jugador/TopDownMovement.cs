@@ -20,9 +20,7 @@ public class TopDownMovement : MonoBehaviour
     [SerializeField] private float _maxSpeed = default;
     [SerializeField] private float _velocityRight = default; 
     
-    private bool isSlipping = false;
-    private float originalDriftFactor;
-    private float originalDrag;
+
 
     private void Awake()
     {
@@ -31,15 +29,10 @@ public class TopDownMovement : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
-        originalDriftFactor = _driftFactor;
-        originalDrag = _elrigido.drag;
     }
 
     private void FixedUpdate()
     {
-        if (isSlipping) return; 
-
         ApplyMovementForce();
         ApplySteerinng();
         MurderOrthogonalVelocity();
@@ -86,7 +79,9 @@ public class TopDownMovement : MonoBehaviour
     {
         Vector2 forwardVelocity = transform.right * Vector2.Dot(_elrigido.velocity, transform.right);
         Vector2 transformUp = transform.up * Vector2.Dot(_elrigido.velocity, transform.up);
+        
         _elrigido.velocity = forwardVelocity + transformUp * _driftFactor;
+        
     }
 
     public void SetInputVector(Vector2 inputVector)
@@ -94,56 +89,4 @@ public class TopDownMovement : MonoBehaviour
         _steering = inputVector.x;
         _accelaration = inputVector.y;
     }
-    
-    public void Slip(float duration, float slipForce)
-    {
-        if (!isSlipping)
-            StartCoroutine(SlipCoroutine(duration, slipForce));
-    }
-
-    private IEnumerator SlipCoroutine(float duration, float slipForce)
-    {
-        isSlipping = true;
-
-        
-        _driftFactor = 1f;             
-        _elrigido.drag = 0.2f;         
-        Vector2 slipDir = _elrigido.velocity.normalized;
-
-        float timer = 0f;
-        while (timer < duration)
-        {
-            _elrigido.AddForce(slipDir * slipForce, ForceMode2D.Force);
-            timer += Time.deltaTime;
-            yield return null;
-        }
-        
-        _driftFactor = originalDriftFactor;
-        _elrigido.drag = originalDrag;
-        isSlipping = false;
-    }
-    
-    public void HitCone(float impactForce, float recoveryTime)
-    {
-        if (!isSlipping)
-            StartCoroutine(HitConeCoroutine(impactForce, recoveryTime));
-    }
-
-    private IEnumerator HitConeCoroutine(float impactForce, float recoveryTime)
-    {
-        
-        float originalAccel = _accelarationF;
-        float originalDrag = _elrigido.drag;
-        
-        _elrigido.AddForce(-transform.right * impactForce, ForceMode2D.Impulse);
-        _elrigido.drag = 5f;
-        _accelarationF = 0f;
-
-        yield return new WaitForSeconds(recoveryTime);
-        
-        _elrigido.drag = originalDrag;
-        _accelarationF = originalAccel;
-    }
-
 }
-
