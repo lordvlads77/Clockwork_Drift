@@ -2795,6 +2795,10 @@ MonoBehaviour:
   _steering: 0
   _rotationAngle: 0
   _elrigido: {fileID: 1094008610}
+  _driftFactor: 0.95
+  _minSpeedForTurning: 0
+  _maxSpeed: 25
+  _velocityRight: 0
 --- !u!50 &1094008610
 Rigidbody2D:
   serializedVersion: 4
