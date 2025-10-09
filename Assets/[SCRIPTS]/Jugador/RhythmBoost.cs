@@ -15,7 +15,7 @@ public class RhythmBoost : MonoBehaviour
 
     private float beatTimer = 0f;
     private Rigidbody2D rb;
-    private Movement movementScript;
+    //private Movement movementScript;
     
     public delegate void BeatEvent();
     public event BeatEvent OnBeat;
@@ -26,7 +26,7 @@ public class RhythmBoost : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        movementScript = GetComponent<Movement>();
+        //movementScript = GetComponent<Movement>();
     }
 
     void Update()
@@ -36,7 +36,6 @@ public class RhythmBoost : MonoBehaviour
         if (beatTimer > beatInterval)
         {
             beatTimer -= beatInterval;
-            // Aquí ha ocurrido un “nuevo beat”
             OnBeat?.Invoke();
         }
 
