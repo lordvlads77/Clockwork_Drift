@@ -1,17 +1,16 @@
 using UnityEngine;
-using UnityEngine;
-
 public class OilSpill : MonoBehaviour
 {
-    [SerializeField] private float slipDuration = 4f; // duración del efecto
-    [SerializeField] private float slipForce = 5f;    // fuerza del deslizamiento
+    [SerializeField] private float slipDuration = 2f;
+    [SerializeField] private float slipForce = 2f;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Movement car = collision.GetComponent<Movement>();
+        TopDownMovement car = collision.GetComponent<TopDownMovement>();
         if (car != null)
         {
             car.Slip(slipDuration, slipForce);
         }
     }
 }
+
