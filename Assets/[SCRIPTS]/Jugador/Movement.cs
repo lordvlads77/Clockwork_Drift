@@ -114,4 +114,30 @@ public class Movement : MonoBehaviour
     }
 
     
+    private bool isSlipping = false;
+
+    public void Slip(float duration, float slipForce)
+    {
+        if (!isSlipping)
+            StartCoroutine(SlipCoroutine(duration, slipForce));
+    }
+
+    private System.Collections.IEnumerator SlipCoroutine(float duration, float slipForce)
+    {
+        isSlipping = true;
+
+       
+        Vector2 slipDirection = rigi.velocity.normalized;
+        float timer = 0f;
+
+        while (timer < duration)
+        {
+            rigi.AddForce(slipDirection * slipForce, ForceMode2D.Force);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        isSlipping = false;
+    }
+
 }
