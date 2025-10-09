@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 [RequireComponent(typeof(Rigidbody2D))]
 
@@ -18,6 +19,9 @@ public class RhythmBoost : MonoBehaviour
     
     public delegate void BeatEvent();
     public event BeatEvent OnBeat;
+    
+    public event Action OnSuccessfulBoost;
+    public event Action OnFailedBoost;
 
     void Start()
     {
@@ -42,22 +46,22 @@ public class RhythmBoost : MonoBehaviour
 
     void CheckBeat()
     {
-        // ✅ Dentro del margen correcto
         if (beatTimer <= tolerance || beatTimer >= beatInterval - tolerance)
         {
             Vector2 boostDir = rb.velocity.normalized; // dirección del movimiento actual
             if (boostDir.sqrMagnitude > 0.1f)
             {
                 rb.AddForce(boostDir * boostForce, ForceMode2D.Impulse);
-                Debug.Log("Perfecto! BOOST 🚀");
+                OnSuccessfulBoost?.Invoke();
+                Debug.Log("Perfecto! BOOST");
             }
         }
         else
         {
-            // ❌ Fallo: frenar al carro
             rb.velocity *= penaltySlowdown; 
             beatTimer = 0; // Reiniciar timing
-            Debug.Log("Fallo! 🚫");
+            Debug.Log("Fallo!");
+            OnFailedBoost?.Invoke();
         }
     }
     public float GetBeatProgress()

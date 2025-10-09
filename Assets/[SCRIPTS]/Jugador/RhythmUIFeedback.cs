@@ -2,34 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using  UnityEngine.UI;
-public class RhythmUI : MonoBehaviour
-{ 
-[Header("Referencias")]
-    public RhythmBoost rhythm;   // Script de ritmo
-    public RectTransform leftBar;
-    public RectTransform rightBar;
-    public Image[] uiElements;   // Imágenes a colorear
 
-    [Header("Movimiento")]
-    public float maxDistance = 300f; // qué tan lejos empiezan las barras
-    public float minDistance = 0f;   // dónde se juntan (centro)
+public class RhythmUIFeedback : MonoBehaviour
+{
+    [Header("Referencias")]
+    public RhythmBoost rhythm;        // Tu script de ritmo
+    public Image[] uiElements;        // Las imágenes de la interfaz (barras, fondo, etc.)
 
-    [Header("Feedback visual")]
+    [Header("Colores de Feedback")]
     public Color normalColor = Color.white;
     public Color successColor = Color.cyan;
     public Color failColor = Color.red;
-    public float flashDuration = 0.6f;
-    public float failDuration = 0.8f;
 
-    private Vector2 leftStart;
-    private Vector2 rightStart;
+    [Header("Tiempos de Feedback")]
+    public float flashDuration = 0.6f;  // Cuánto dura el brillo
+    public float failDuration = 0.8f;   // Cuánto dura el color rojo
+
     private bool isFlashing;
 
     void Start()
     {
-        if (leftBar != null) leftStart = leftBar.anchoredPosition;
-        if (rightBar != null) rightStart = rightBar.anchoredPosition;
-
         if (rhythm != null)
         {
             rhythm.OnSuccessfulBoost += OnSuccess;
@@ -44,23 +36,6 @@ public class RhythmUI : MonoBehaviour
             rhythm.OnSuccessfulBoost -= OnSuccess;
             rhythm.OnFailedBoost -= OnFail;
         }
-    }
-
-    void Update()
-    {
-        if (rhythm == null) return;
-
-        // progreso del beat (0–1)
-        float progress = rhythm.GetBeatProgress();
-
-        // movimiento lineal hacia el centro
-        float distance = Mathf.Lerp(maxDistance, minDistance, progress);
-
-        if (leftBar != null)
-            leftBar.anchoredPosition = new Vector2(-distance, leftStart.y);
-
-        if (rightBar != null)
-            rightBar.anchoredPosition = new Vector2(distance, rightStart.y);
     }
 
     private void OnSuccess()
