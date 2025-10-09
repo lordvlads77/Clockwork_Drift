@@ -29,6 +29,33 @@ TextureImporter:
   - first:
       213: -5866773171951616500
     second: Buildings_8
+  - first:
+      213: 3294793537613564434
+    second: Buildings_Sliced_0
+  - first:
+      213: -8281972817484428007
+    second: Buildings_Sliced_1
+  - first:
+      213: -4288465023159363476
+    second: Buildings_Sliced_2
+  - first:
+      213: 7467511234354268450
+    second: Buildings_Sliced_3
+  - first:
+      213: -6431200659747139784
+    second: Buildings_Sliced_4
+  - first:
+      213: 1732996848945569895
+    second: Buildings_Sliced_5
+  - first:
+      213: -730226047477392021
+    second: Buildings_Sliced_6
+  - first:
+      213: -3286847670435073504
+    second: Buildings_Sliced_7
+  - first:
+      213: 149626982482352198
+    second: Buildings_Sliced_8
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -73,7 +100,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -119,7 +146,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Buildings_Sliced
+      name: Buildings_Sliced_0
       rect:
         serializedVersion: 2
         x: 0
@@ -127,20 +154,20 @@ TextureImporter:
         width: 16
         height: 21
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c595f05468eb1ef80800000000000000
-      internalID: -8078966772632430244
+      spriteID: 21a85b1144579bd20800000000000000
+      internalID: 3294793537613564434
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Buildings_1
+      name: Buildings_Sliced_1
       rect:
         serializedVersion: 2
         x: 20
@@ -148,20 +175,20 @@ TextureImporter:
         width: 23
         height: 23
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5461f4856dcbfa8c0800000000000000
-      internalID: -3985759516408998331
+      spriteID: 91d466e2a95801d80800000000000000
+      internalID: -8281972817484428007
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Buildings_2
+      name: Buildings_Sliced_2
       rect:
         serializedVersion: 2
         x: 48
@@ -169,20 +196,20 @@ TextureImporter:
         width: 24
         height: 21
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6aecfd3541ad3be90800000000000000
-      internalID: -7011020414044352858
+      spriteID: c6816ee58cf4c74c0800000000000000
+      internalID: -4288465023159363476
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Buildings_3
+      name: Buildings_Sliced_3
       rect:
         serializedVersion: 2
         x: 80
@@ -190,20 +217,20 @@ TextureImporter:
         width: 16
         height: 21
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4d7af02c25ade89b0800000000000000
-      internalID: -5075879681021990956
+      spriteID: 229ccef27ede1a760800000000000000
+      internalID: 7467511234354268450
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Buildings_4
+      name: Buildings_Sliced_4
       rect:
         serializedVersion: 2
         x: 99
@@ -211,20 +238,20 @@ TextureImporter:
         width: 23
         height: 23
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 08e6e6db4a3c29de0800000000000000
-      internalID: -1327783827800691072
+      spriteID: 83f838ce219cfb6a0800000000000000
+      internalID: -6431200659747139784
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Buildings_5
+      name: Buildings_Sliced_5
       rect:
         serializedVersion: 2
         x: 128
@@ -232,20 +259,20 @@ TextureImporter:
         width: 24
         height: 21
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 88ec9396105451a90800000000000000
-      internalID: -7343887744995045752
+      spriteID: 760a54ac377dc0810800000000000000
+      internalID: 1732996848945569895
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Buildings_6
+      name: Buildings_Sliced_6
       rect:
         serializedVersion: 2
         x: 0
@@ -253,20 +280,20 @@ TextureImporter:
         width: 16
         height: 21
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b1b6e0db63e7d5bd0800000000000000
-      internalID: -2639815033004070117
+      spriteID: b6d5f5a5747bdd5f0800000000000000
+      internalID: -730226047477392021
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Buildings_7
+      name: Buildings_Sliced_7
       rect:
         serializedVersion: 2
         x: 19
@@ -274,20 +301,20 @@ TextureImporter:
         width: 23
         height: 23
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c9ea98c9141936800800000000000000
-      internalID: 604486485982949020
+      spriteID: 022b5ec4575c262d0800000000000000
+      internalID: -3286847670435073504
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Buildings_8
+      name: Buildings_Sliced_8
       rect:
         serializedVersion: 2
         x: 48
@@ -295,14 +322,14 @@ TextureImporter:
         width: 24
         height: 21
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c0e380432e8059ea0800000000000000
-      internalID: -5866773171951616500
+      spriteID: 6489ca3a2f4931200800000000000000
+      internalID: 149626982482352198
       vertices: []
       indices: 
       edges: []
