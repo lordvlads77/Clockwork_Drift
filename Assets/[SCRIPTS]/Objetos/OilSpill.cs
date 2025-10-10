@@ -6,6 +6,7 @@ public class OilSpill : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log(collision.gameObject.name);
         TopDownMovement car = collision.GetComponent<TopDownMovement>();
         if (car != null)
         {
