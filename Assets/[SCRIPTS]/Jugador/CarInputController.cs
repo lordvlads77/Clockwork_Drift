@@ -22,5 +22,14 @@ public class CarInputController : MonoBehaviour
         inputVector.y = Input.GetAxis("Vertical");
         
         TopDownMovement.Instance.SetInputVector(inputVector);
+        
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            TopDownMovement.Instance.Handbrake(true);
+        }
+        else if (Input.GetKeyUp(KeyCode.Space))
+        {
+            TopDownMovement.Instance.Handbrake(false);
+        }
     }
 }
