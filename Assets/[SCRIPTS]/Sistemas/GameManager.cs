@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     public void IncrementLap()
     {
         _currentLap++;
-        lapText.text = "Lap: " + _currentLap + "/" + _totalLaps;
+        lapText.text = "" + _currentLap + "/" + _totalLaps;
         if (_currentLap >= _totalLaps)
         {
             //Win Event here
