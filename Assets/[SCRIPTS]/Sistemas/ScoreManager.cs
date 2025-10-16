@@ -1,5 +1,5 @@
 using UnityEngine;
-using TMPro; 
+using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -17,7 +17,7 @@ public class ScoreManager : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject); 
+        DontDestroyOnLoad(gameObject);
     }
 
     public void AddScore(int amount)
@@ -26,11 +26,19 @@ public class ScoreManager : MonoBehaviour
         UpdateUI();
     }
 
+    public void SubtractScore(int amount) 
+    {
+        currentScore -= amount;
+
+        if (currentScore < 0)
+            currentScore = 0;
+
+        UpdateUI();
+    }
+
     private void UpdateUI()
     {
         if (scoreText != null)
             scoreText.text = $"Score: {currentScore}";
     }
-
-    public int GetScore() => currentScore;
 }

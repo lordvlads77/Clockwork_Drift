@@ -17,7 +17,6 @@ public class TrackSection : MonoBehaviour
             playerInside = true;
             playerHitSomething = false;
 
-            // Suscribirse a eventos de obstáculos
             foreach (var obs in obstacles)
             {
                 var detector = obs.GetComponent<ObstacleDetector>();
