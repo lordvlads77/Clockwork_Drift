@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7238691167121216699}
   - component: {fileID: 326774693275982166}
   - component: {fileID: 7602135252213093756}
+  - component: {fileID: -54951310764284312}
   m_Layer: 0
   m_Name: Oilspill
   m_TagString: Untagged
@@ -122,5 +123,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fc88d21a0129714eab78f8ea7502f6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slipDuration: 2
-  slipForce: 5
+  slipDuration: 0.5
+  slipForce: 1.5
+--- !u!114 &-54951310764284312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 876393852768015410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9df026a9c45f84458c53c39e306b342, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

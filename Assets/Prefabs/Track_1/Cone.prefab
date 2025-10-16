@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 216476831040097050}
   - component: {fileID: 9125290288608606334}
   - component: {fileID: 4179536728252492911}
+  - component: {fileID: 2942150284894343719}
   m_Layer: 0
   m_Name: Cone
   m_TagString: Untagged
@@ -149,3 +150,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2942150284894343719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6227754349289787450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9df026a9c45f84458c53c39e306b342, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
