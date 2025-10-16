@@ -10,6 +10,16 @@ public class Timer : MonoBehaviour
     public float timerLap;
     private int  minutes, seconds, cents;
 
+    private void Awake()
+    {
+        GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+    }
+
+    private void OnDestroy()
+    {
+        GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
+    }
+
     private void FixedUpdate()
     {
         timerLap += Time.fixedDeltaTime;
@@ -18,5 +28,10 @@ public class Timer : MonoBehaviour
         cents = (int)((timerLap - (int)timerLap) * 100f);
       
         timerText.text = string.Format("{0:00}:{1:00}:{2:00}", minutes, seconds, cents);
+    }
+    
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        enabled = newGameState == GameState.Gameplay;
     }
 } 
