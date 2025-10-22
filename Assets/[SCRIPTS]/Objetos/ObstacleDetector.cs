@@ -8,20 +8,19 @@ public class ObstacleDetector : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (alreadyHit) return;
-
-        if (collision.collider.CompareTag("Player"))
-        {
-            alreadyHit = true;
-            OnPlayerHit?.Invoke();
-        }
+        HandlePlayerHit(collision.collider);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        HandlePlayerHit(collision);
+    }
+
+    private void HandlePlayerHit(Collider2D collider)
+    {
         if (alreadyHit) return;
 
-        if (collision.CompareTag("Player"))
+        if (collider.CompareTag("Player"))
         {
             alreadyHit = true;
             OnPlayerHit?.Invoke();

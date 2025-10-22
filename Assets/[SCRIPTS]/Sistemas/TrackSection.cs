@@ -19,6 +19,7 @@ public class TrackSection : MonoBehaviour
 
             foreach (var obs in obstacles)
             {
+                if (obs == null) continue;
                 var detector = obs.GetComponent<ObstacleDetector>();
                 if (detector != null)
                     detector.OnPlayerHit += MarkObstacleHit;
@@ -31,19 +32,34 @@ public class TrackSection : MonoBehaviour
         if (collision.CompareTag("Player") && playerInside)
         {
             playerInside = false;
-
-            foreach (var obs in obstacles)
-            {
-                var detector = obs.GetComponent<ObstacleDetector>();
-                if (detector != null)
-                    detector.OnPlayerHit -= MarkObstacleHit;
-            }
+            UnsubscribeFromObstacles();
 
             if (!playerHitSomething)
             {
                 ScoreManager.Instance.AddScore(pointsForPerfectRun);
                 Debug.Log($"Perfect Section! +{pointsForPerfectRun}");
             }
+        }
+    }
+
+    private void OnDisable()
+    {
+        UnsubscribeFromObstacles();
+    }
+
+    private void OnDestroy()
+    {
+        UnsubscribeFromObstacles();
+    }
+
+    private void UnsubscribeFromObstacles()
+    {
+        foreach (var obs in obstacles)
+        {
+            if (obs == null) continue;
+            var detector = obs.GetComponent<ObstacleDetector>();
+            if (detector != null)
+                detector.OnPlayerHit -= MarkObstacleHit;
         }
     }
 
