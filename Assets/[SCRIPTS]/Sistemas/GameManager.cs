@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
         else if (Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
         /*GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
         GameState currentGameState = GameStateManager.Instance.CurrentGameState;

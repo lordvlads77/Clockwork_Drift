@@ -22,6 +22,7 @@ public class UIController : MonoBehaviour
         else if (Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
     }
 
