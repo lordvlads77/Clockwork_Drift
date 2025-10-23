@@ -29,7 +29,7 @@ public class TrackSection : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && playerInside)
+        if (collision.CompareTag("Player"))
         {
             playerInside = false;
             UnsubscribeFromObstacles();

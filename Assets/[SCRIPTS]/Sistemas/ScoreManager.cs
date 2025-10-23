@@ -10,14 +10,15 @@ public class ScoreManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (Instance != this)
         {
             Destroy(gameObject);
-            return;
         }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
     }
 
     public void AddScore(int amount)
@@ -26,7 +27,7 @@ public class ScoreManager : MonoBehaviour
         UpdateUI();
     }
 
-    public void SubtractScore(int amount) 
+    public void SubtractScore(int amount)
     {
         currentScore -= amount;
 

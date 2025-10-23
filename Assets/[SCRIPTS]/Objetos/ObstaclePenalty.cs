@@ -13,12 +13,14 @@ public class ObstaclePenalty : MonoBehaviour
 
     private void OnEnable()
     {
-        detector.OnPlayerHit += ApplyPenalty;
+        if (detector != null)
+            detector.OnPlayerHit += ApplyPenalty;
     }
 
     private void OnDisable()
     {
-        detector.OnPlayerHit -= ApplyPenalty;
+        if (detector != null)
+            detector.OnPlayerHit -= ApplyPenalty;
     }
 
     private void ApplyPenalty()
