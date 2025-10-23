@@ -13,11 +13,22 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
-        if (Instance != this)
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else if (Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
+        /*GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+        GameState currentGameState = GameStateManager.Instance.CurrentGameState;
+        GameState newGameState = currentGameState == GameState.Paused
+            ? GameState.Gameplay
+            : GameState.Paused;
+        GameStateManager.Instance.SetState(newGameState);*/
+        
     }
 
     public void IncrementLap()
@@ -30,4 +41,14 @@ public class GameManager : MonoBehaviour
             Debug.Log("Finalizaste la carrera!");
         }
     }
+
+    /*private void OnDestroy()
+    {
+        GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
+    }*/
+    
+    /*private void OnGameStateChanged(GameState newGameState)
+    {
+        enabled = newGameState == GameState.Gameplay;
+    }*/
 }
