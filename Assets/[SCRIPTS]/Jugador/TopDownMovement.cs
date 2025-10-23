@@ -23,6 +23,7 @@ public class TopDownMovement : MonoBehaviour
     private bool isSlipping = false;
     private float originalDriftFactor;
     private float originalDrag;
+    
 
     private void Awake()
     {
@@ -144,6 +145,6 @@ public class TopDownMovement : MonoBehaviour
         _elrigido.drag = originalDrag;
         _accelarationF = originalAccel;
     }
-
+    
+    public float CurrentAngle => _rotationAngle;
 }
-

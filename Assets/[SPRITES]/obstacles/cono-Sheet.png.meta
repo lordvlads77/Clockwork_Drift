@@ -1,25 +1,16 @@
 fileFormatVersion: 2
-guid: 5ab1f8ea9dab2b746adee4107b27f305
+guid: 31a6ed47aeab93c4db82217a32beeaab
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5250192248124770251
-    second: carroTipo2-Sheet_0
+      213: -522118770928612716
+    second: cono-Sheet_0
   - first:
-      213: -7584490603678757874
-    second: carroTipo2-Sheet_1
+      213: 3700666893500204626
+    second: cono-Sheet_1
   - first:
-      213: -7355234264922403476
-    second: carroTipo2-Sheet_2
-  - first:
-      213: 1306211365233220772
-    second: carroTipo2-Sheet_3
-  - first:
-      213: -2325895823370422016
-    second: carroTipo2-Sheet_4
-  - first:
-      213: 2273045309995075436
-    second: carroTipo2-Sheet_5
+      213: 8798661926174843934
+    second: cono-Sheet_2
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -64,7 +55,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 35
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -122,70 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: carroTipo2-Sheet_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 64
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bc78cff680e6cd840800000000000000
-      internalID: 5250192248124770251
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: carroTipo2-Sheet_1
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 64
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e0c8075faf97eb690800000000000000
-      internalID: -7584490603678757874
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: carroTipo2-Sheet_2
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 64
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c6dc48fd765fce990800000000000000
-      internalID: -7355234264922403476
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: carroTipo2-Sheet_3
+      name: cono-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -199,14 +127,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4acdd4ae058902210800000000000000
-      internalID: 1306211365233220772
+      spriteID: 49a8c308ebf01c8f0800000000000000
+      internalID: -522118770928612716
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: carroTipo2-Sheet_4
+      name: cono-Sheet_1
       rect:
         serializedVersion: 2
         x: 64
@@ -220,14 +148,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 009f07f5212c8bfd0800000000000000
-      internalID: -2325895823370422016
+      spriteID: 256c023cee86b5330800000000000000
+      internalID: 3700666893500204626
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: carroTipo2-Sheet_5
+      name: cono-Sheet_2
       rect:
         serializedVersion: 2
         x: 128
@@ -241,8 +169,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c67cf949aaa7b8f10800000000000000
-      internalID: 2273045309995075436
+      spriteID: e14e76097602b1a70800000000000000
+      internalID: 8798661926174843934
       vertices: []
       indices: 
       edges: []
