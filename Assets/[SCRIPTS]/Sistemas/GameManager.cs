@@ -13,10 +13,13 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
-        if (Instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
         }
         /*GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
         GameState currentGameState = GameStateManager.Instance.CurrentGameState;

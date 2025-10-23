@@ -15,10 +15,13 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject pauseButton;
     private void Awake()
     {
-        Instance = this;
-        if (Instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
         }
     }
 
