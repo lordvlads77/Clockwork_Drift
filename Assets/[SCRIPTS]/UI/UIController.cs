@@ -11,6 +11,8 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject mainMenuPanel;
     [Header("Pause Menu UI Panel")]
     [SerializeField] private GameObject pauseMenuPanel;
+    [Header("Settings Menu UI Panel")]
+    [SerializeField] private GameObject settingsMenuPanel;
     [Header("Pause Button GObject")]
     [SerializeField] private GameObject pauseButton;
     private void Awake()
@@ -44,9 +46,38 @@ public class UIController : MonoBehaviour
         pauseButton.SetActive(true);
     }
 
+    public void ShowSettingsMenu()
+    {
+        settingsMenuPanel.SetActive(true);
+        if (mainMenuPanel.activeInHierarchy == true)
+        {
+            mainMenuPanel.SetActive(false);
+        }
+        else if (pauseMenuPanel.activeInHierarchy == true)
+        {
+            pauseMenuPanel.SetActive(false);
+        }
+    }
+
+    public void HideSettingsMenu()
+    {
+        settingsMenuPanel.SetActive(false);
+        // TODO: Dynamic going back to the appropriate UI Panel.
+    }
+
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void UISoundOn()
+    {
+        //TODO: Add sound on functionality
+    }
+    
+    public void UISoundOff()
+    {
+        // TODO: Add sound off functionality
     }
     
 }
