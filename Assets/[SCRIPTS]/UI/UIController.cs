@@ -13,8 +13,11 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject pauseMenuPanel;
     [Header("Settings Menu UI Panel")]
     [SerializeField] private GameObject settingsMenuPanel;
+    [Header("Settings Menu from Pause Panel GObject")]
+    [SerializeField] private GameObject settingsMenuFromPause = default;
     [Header("Pause Button GObject")]
     [SerializeField] private GameObject pauseButton;
+
     private void Awake()
     {
         if (Instance == null)
@@ -58,11 +61,22 @@ public class UIController : MonoBehaviour
             pauseMenuPanel.SetActive(false);
         }
     }
+    
+    public void ShowSettingsMenuFromPause()
+    {
+        settingsMenuFromPause.SetActive(true);
+        //pauseMenuPanel.SetActive(false);
+    }
 
-    public void HideSettingsMenu()
+    public void HideSettingsMainMenu()
     {
         settingsMenuPanel.SetActive(false);
-        // TODO: Dynamic going back to the appropriate UI Panel.
+        mainMenuPanel.SetActive(true);
+    }
+    public void HideSettingsPauseMenu()
+    {
+        settingsMenuFromPause.SetActive(false);
+        pauseMenuPanel.SetActive(true);
     }
 
     public void QuitGame()
