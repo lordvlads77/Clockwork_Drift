@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 public class UIController : MonoBehaviour
@@ -17,6 +18,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject settingsMenuFromPause = default;
     [Header("Pause Button GObject")]
     [SerializeField] private GameObject pauseButton;
+    [SerializeField] private GameObject finishedtrackPanel = default;
 
     private void Awake()
     {
@@ -92,6 +94,17 @@ public class UIController : MonoBehaviour
     public void UISoundOff()
     {
         // TODO: Add sound off functionality
+    }
+
+    public void GameReplay()
+    {
+        SceneManager.LoadScene(0);
+    }
+    
+    public void ShowFinishedTrackPanel()
+    {
+        finishedtrackPanel.SetActive(true);
+        pauseButton.SetActive(false);
     }
     
 }
