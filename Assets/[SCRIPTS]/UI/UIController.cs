@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,8 +17,6 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject settingsMenuPanel;
     [Header("Settings Menu from Pause Panel GObject")]
     [SerializeField] private GameObject settingsMenuFromPause = default;
-    [Header("Pause Button GObject")]
-    [SerializeField] private GameObject pauseButton;
     [SerializeField] private GameObject finishedtrackPanel = default;
 
     private void Awake()
@@ -33,22 +32,27 @@ public class UIController : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ShowPauseMenu();
+        }
+    }
+
     public void HideMainMenu()
     {
         mainMenuPanel.SetActive(false);
-        pauseButton.SetActive(true);
     }
     
     public void ShowPauseMenu()
     {
         pauseMenuPanel.SetActive(true);
-        pauseButton.SetActive(false);
     }
 
     public void HidePauseMenu()
     {
         pauseMenuPanel.SetActive(false);
-        pauseButton.SetActive(true);
     }
 
     public void ShowSettingsMenu()
@@ -104,7 +108,6 @@ public class UIController : MonoBehaviour
     public void ShowFinishedTrackPanel()
     {
         finishedtrackPanel.SetActive(true);
-        pauseButton.SetActive(false);
     }
     
 }
