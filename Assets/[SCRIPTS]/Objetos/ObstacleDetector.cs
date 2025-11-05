@@ -6,6 +6,15 @@ public class ObstacleDetector : MonoBehaviour
     public event Action OnPlayerHit;
     private bool alreadyHit = false;
 
+    private void Awake()
+    {
+        GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+    }
+    private void OnDestroy()
+    {
+        GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         HandlePlayerHit(collision.collider);
@@ -25,5 +34,9 @@ public class ObstacleDetector : MonoBehaviour
             alreadyHit = true;
             OnPlayerHit?.Invoke();
         }
+    }
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        enabled = newGameState == GameState.Gameplay;
     }
 }

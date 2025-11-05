@@ -1,10 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using  UnityEngine.UI;
 public class RhythmUI : MonoBehaviour
 { 
-[Header("Referencias")]
+    [Header("Referencias")]
     public RhythmBoost rhythm;   // Script de ritmo
     public RectTransform leftBar;
     public RectTransform rightBar;
@@ -25,6 +26,12 @@ public class RhythmUI : MonoBehaviour
     private Vector2 rightStart;
     private bool isFlashing;
 
+    private void Awake()
+    {
+        GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+    }
+    
+
     void Start()
     {
         if (leftBar != null) leftStart = leftBar.anchoredPosition;
@@ -39,6 +46,7 @@ public class RhythmUI : MonoBehaviour
 
     private void OnDestroy()
     {
+        GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
         if (rhythm != null)
         {
             rhythm.OnSuccessfulBoost -= OnSuccess;
@@ -87,5 +95,9 @@ public class RhythmUI : MonoBehaviour
             img.color = normalColor;
 
         isFlashing = false;
+    }
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        enabled = newGameState == GameState.Gameplay;
     }
 }

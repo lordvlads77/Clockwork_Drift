@@ -34,6 +34,12 @@ public class TopDownMovement : MonoBehaviour
         
         originalDriftFactor = _driftFactor;
         originalDrag = _elrigido.drag;
+        GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+    }
+
+    private void OnDestroy()
+    {
+        GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
     }
 
     private void FixedUpdate()
@@ -145,5 +151,9 @@ public class TopDownMovement : MonoBehaviour
         _accelarationF = originalAccel;
     }
 
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        enabled = newGameState == GameState.Gameplay;
+    }
 }
 

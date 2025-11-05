@@ -20,7 +20,12 @@ public class ConeObstacle : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         rb.isKinematic = false;
-        rb.gravityScale = 0;    
+        rb.gravityScale = 0;
+        GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+    }
+    private void OnDestroy()
+    {
+        GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -56,5 +61,9 @@ public class ConeObstacle : MonoBehaviour
     {
         yield return new WaitForSeconds(disappearDelay);
         gameObject.SetActive(false);
+    }
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        enabled = newGameState == GameState.Gameplay;
     }
 }

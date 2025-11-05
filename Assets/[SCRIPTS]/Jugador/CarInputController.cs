@@ -14,6 +14,11 @@ public class CarInputController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+    }
+    private void OnDestroy()
+    {
+        GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
     }
     void Update()
     {
@@ -22,5 +27,9 @@ public class CarInputController : MonoBehaviour
         inputVector.y = Input.GetAxis("Vertical");
         
         TopDownMovement.Instance.SetInputVector(inputVector);
+    }
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        enabled = newGameState == GameState.Gameplay;
     }
 }

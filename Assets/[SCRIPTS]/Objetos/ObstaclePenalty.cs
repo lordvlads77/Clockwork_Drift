@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(ObstacleDetector))]
@@ -9,6 +10,12 @@ public class ObstaclePenalty : MonoBehaviour
     private void Awake()
     {
         detector = GetComponent<ObstacleDetector>();
+        GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+    }
+
+    private void OnDestroy()
+    {
+        GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
     }
 
     private void OnEnable()
@@ -30,5 +37,9 @@ public class ObstaclePenalty : MonoBehaviour
             ScoreManager.Instance.SubtractScore(penaltyPoints);
             Debug.Log($"Jugador golpeó obstáculo: -{penaltyPoints} puntos");
         }
+    }
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        enabled = newGameState == GameState.Gameplay;
     }
 }

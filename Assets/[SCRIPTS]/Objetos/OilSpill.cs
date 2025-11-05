@@ -1,8 +1,19 @@
+using System;
 using UnityEngine;
 public class OilSpill : MonoBehaviour
 {
     [SerializeField] private float slipDuration = 2f;
     [SerializeField] private float slipForce = 2f;
+
+    private void Awake()
+    {
+        GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+    }
+
+    private void OnDestroy()
+    {
+        GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -12,6 +23,10 @@ public class OilSpill : MonoBehaviour
         {
             car.Slip(slipDuration, slipForce);
         }
+    }
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        enabled = newGameState == GameState.Gameplay;
     }
 }
 
