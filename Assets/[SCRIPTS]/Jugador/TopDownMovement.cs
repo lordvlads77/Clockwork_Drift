@@ -23,6 +23,10 @@ public class TopDownMovement : MonoBehaviour
     private bool isSlipping = false;
     private float originalDriftFactor;
     private float originalDrag;
+    
+    private bool isHandbraking = false;
+    private float normalDrift;
+    private float normalDrag;
 
     private void Awake()
     {
@@ -76,10 +80,18 @@ public class TopDownMovement : MonoBehaviour
 
     void ApplySteerinng()
     {
-        _minSpeedForTurning = _elrigido.velocity.magnitude / 8;
-        _minSpeedForTurning = Mathf.Clamp01(_minSpeedForTurning);
-        _rotationAngle -= _steering * _turn * _minSpeedForTurning;
-        _elrigido.MoveRotation(_rotationAngle);
+        // Calcula la cantidad de velocidad (0 a 1)
+        float speedFactor = Mathf.InverseLerp(0f, _maxSpeed, _elrigido.velocity.magnitude);
+    
+        // Suaviza la sensibilidad del giro (más estable)
+        float steerSensitivity = Mathf.Lerp(0.4f, 1.0f, speedFactor);
+
+        // Calcula el ángulo final con una respuesta más fluida
+        _rotationAngle -= _steering * _turn * steerSensitivity;
+
+        // Suaviza el cambio de rotación en lugar de aplicarlo directo
+        float smoothRotation = Mathf.LerpAngle(_elrigido.rotation, _rotationAngle, Time.fixedDeltaTime * 8f);
+        _elrigido.MoveRotation(smoothRotation);
     }
 
     void MurderOrthogonalVelocity()
@@ -144,6 +156,24 @@ public class TopDownMovement : MonoBehaviour
         _elrigido.drag = originalDrag;
         _accelarationF = originalAccel;
     }
+    
+    public void Handbrake(bool active)
+    {
+        if (active && !isHandbraking)
+        {
+            isHandbraking = true;
+            normalDrift = _driftFactor;
+            normalDrag = _elrigido.drag;
 
+            _driftFactor = 0.7f;   // Patina más
+            _elrigido.drag = 0.9f;  // Menos fricción
+        }
+        else if (!active && isHandbraking)
+        {
+            isHandbraking = false;
+            _driftFactor = normalDrift;
+            _elrigido.drag = normalDrag;
+        }
+    }
 }
 
