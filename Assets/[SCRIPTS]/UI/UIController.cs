@@ -31,14 +31,54 @@ public class UIController : MonoBehaviour
             return;
         }
     }
-
-    private void Update()
+    
+    private void OnEnable()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        // Nos suscribimos al cambio de estado del juego
+        GameStateManager.Instance.OnGameStateChanged += HandleGameStateChanged;
+    }
+
+    private void OnDisable()
+    {
+        if (GameStateManager.Instance != null)
+            GameStateManager.Instance.OnGameStateChanged -= HandleGameStateChanged;
+    }
+    
+    private void HandleGameStateChanged(GameState newState)
+    {
+        bool paused = newState == GameState.Paused;
+
+        if (pauseMenuPanel != null)
+            pauseMenuPanel.SetActive(paused);
+        
+        Cursor.visible = paused;
+        Cursor.lockState = paused ? CursorLockMode.Confined : CursorLockMode.Locked;
+
+        if (!paused)
         {
-            ShowPauseMenu();
+            if (settingsMenuFromPause != null) settingsMenuFromPause.SetActive(false);
+            if (settingsMenuPanel != null && (mainMenuPanel == null || !mainMenuPanel.activeInHierarchy))
+                settingsMenuPanel.SetActive(false);
         }
     }
+    
+    public void OnResumeButton()
+    {
+        if (GameStateManager.Instance != null)
+            GameStateManager.Instance.SetState(GameState.Gameplay);
+    }
+
+    public void OnOpenSettingsFromPause()
+    {
+        if (settingsMenuFromPause != null) settingsMenuFromPause.SetActive(true);
+        if (pauseMenuPanel != null) pauseMenuPanel.SetActive(false);
+    }
+
+    /*public void OnBackFromSettingsToPause()
+    {
+        if (settingsMenuFromPause != null) settingsMenuFromPause.SetActive(false);
+        if (pauseMenuPanel != null) pauseMenuPanel.SetActive(true);
+    }*/
 
     public void HideMainMenu()
     {
