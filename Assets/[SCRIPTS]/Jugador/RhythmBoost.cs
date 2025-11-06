@@ -12,6 +12,7 @@ public class RhythmBoost : MonoBehaviour
     public float tolerance = 0.2f;      // Margen de error
     public float boostForce = 200f;     // Fuerza extra en boost
     public float penaltySlowdown = 0.5f;// Multiplicador de freno (0 = detiene por completo)
+    public ParticleSystem ParticulaBoost;
 
     private float beatTimer = 0f;
     private Rigidbody2D rb;
@@ -43,7 +44,10 @@ public class RhythmBoost : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
             CheckBeat();
     }
-
+    void crearParticula()
+    {
+        ParticulaBoost.Play();
+    }
     void CheckBeat()
     {
         if (beatTimer <= tolerance || beatTimer >= beatInterval - tolerance)
@@ -52,6 +56,7 @@ public class RhythmBoost : MonoBehaviour
             if (boostDir.sqrMagnitude > 0.1f)
             {
                 rb.AddForce(boostDir * boostForce, ForceMode2D.Impulse);
+                crearParticula();
                 OnSuccessfulBoost?.Invoke();
                 Debug.Log("Perfecto! BOOST");
             }

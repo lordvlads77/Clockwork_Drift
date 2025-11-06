@@ -165,8 +165,8 @@ public class TopDownMovement : MonoBehaviour
             normalDrift = _driftFactor;
             normalDrag = _elrigido.drag;
 
-            _driftFactor = 0.95f;   // Patina más
-            _elrigido.drag = 0.1f;  // Menos fricción
+            _driftFactor = 0.7f;   // Patina más
+            _elrigido.drag = 0.9f;  // Menos fricción
         }
         else if (!active && isHandbraking)
         {

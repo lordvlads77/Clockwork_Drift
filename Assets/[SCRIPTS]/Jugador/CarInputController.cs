@@ -6,6 +6,7 @@ using UnityEngine;
 public class CarInputController : MonoBehaviour
 {
     public static CarInputController Instance { get; private set; }
+    public ParticleSystem Particuladerrape;
 
     private void Awake()
     {
@@ -26,10 +27,16 @@ public class CarInputController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             TopDownMovement.Instance.Handbrake(true);
+            crearParticula();
         }
         else if (Input.GetKeyUp(KeyCode.Space))
         {
             TopDownMovement.Instance.Handbrake(false);
         }
+    }
+
+    void crearParticula()
+    {
+        Particuladerrape.Play();
     }
 }
