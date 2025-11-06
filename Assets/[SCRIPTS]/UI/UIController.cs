@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,8 +17,6 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject settingsMenuPanel;
     [Header("Settings Menu from Pause Panel GObject")]
     [SerializeField] private GameObject settingsMenuFromPause = default;
-    [Header("Pause Button GObject")]
-    [SerializeField] private GameObject pauseButton;
     [SerializeField] private GameObject finishedtrackPanel = default;
 
     private void Awake()
@@ -32,23 +31,68 @@ public class UIController : MonoBehaviour
             return;
         }
     }
+    
+    private void OnEnable()
+    {
+        // Nos suscribimos al cambio de estado del juego
+        GameStateManager.Instance.OnGameStateChanged += HandleGameStateChanged;
+    }
+
+    private void OnDisable()
+    {
+        if (GameStateManager.Instance != null)
+            GameStateManager.Instance.OnGameStateChanged -= HandleGameStateChanged;
+    }
+    
+    private void HandleGameStateChanged(GameState newState)
+    {
+        bool paused = newState == GameState.Paused;
+
+        if (pauseMenuPanel != null)
+            pauseMenuPanel.SetActive(paused);
+        
+        Cursor.visible = paused;
+        Cursor.lockState = paused ? CursorLockMode.Confined : CursorLockMode.Locked;
+
+        if (!paused)
+        {
+            if (settingsMenuFromPause != null) settingsMenuFromPause.SetActive(false);
+            if (settingsMenuPanel != null && (mainMenuPanel == null || !mainMenuPanel.activeInHierarchy))
+                settingsMenuPanel.SetActive(false);
+        }
+    }
+    
+    public void OnResumeButton()
+    {
+        if (GameStateManager.Instance != null)
+            GameStateManager.Instance.SetState(GameState.Gameplay);
+    }
+
+    public void OnOpenSettingsFromPause()
+    {
+        if (settingsMenuFromPause != null) settingsMenuFromPause.SetActive(true);
+        if (pauseMenuPanel != null) pauseMenuPanel.SetActive(false);
+    }
+
+    /*public void OnBackFromSettingsToPause()
+    {
+        if (settingsMenuFromPause != null) settingsMenuFromPause.SetActive(false);
+        if (pauseMenuPanel != null) pauseMenuPanel.SetActive(true);
+    }*/
 
     public void HideMainMenu()
     {
         mainMenuPanel.SetActive(false);
-        pauseButton.SetActive(true);
     }
     
     public void ShowPauseMenu()
     {
         pauseMenuPanel.SetActive(true);
-        pauseButton.SetActive(false);
     }
 
     public void HidePauseMenu()
     {
         pauseMenuPanel.SetActive(false);
-        pauseButton.SetActive(true);
     }
 
     public void ShowSettingsMenu()
@@ -104,7 +148,6 @@ public class UIController : MonoBehaviour
     public void ShowFinishedTrackPanel()
     {
         finishedtrackPanel.SetActive(true);
-        pauseButton.SetActive(false);
     }
     
 }

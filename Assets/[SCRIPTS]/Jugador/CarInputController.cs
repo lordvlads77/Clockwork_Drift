@@ -15,6 +15,11 @@ public class CarInputController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+    }
+    private void OnDestroy()
+    {
+        GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
     }
     void Update()
     {
@@ -38,5 +43,9 @@ public class CarInputController : MonoBehaviour
     void crearParticula()
     {
         Particuladerrape.Play();
+    }
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        enabled = newGameState == GameState.Gameplay;
     }
 }

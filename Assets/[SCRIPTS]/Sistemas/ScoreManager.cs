@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using TMPro;
 
@@ -19,6 +20,12 @@ public class ScoreManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+    }
+
+    private void OnDestroy()
+    {
+        GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
     }
 
     public void AddScore(int amount)
@@ -41,5 +48,9 @@ public class ScoreManager : MonoBehaviour
     {
         if (scoreText != null)
             scoreText.text = $"Score: {currentScore}";
+    }
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        enabled = newGameState == GameState.Gameplay;
     }
 }

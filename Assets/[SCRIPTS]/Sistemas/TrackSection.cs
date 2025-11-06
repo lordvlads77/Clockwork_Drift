@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,10 @@ public class TrackSection : MonoBehaviour
     private bool playerInside = false;
     private bool playerHitSomething = false;
 
+    private void Awake()
+    {
+        GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -50,6 +55,7 @@ public class TrackSection : MonoBehaviour
     private void OnDestroy()
     {
         UnsubscribeFromObstacles();
+        GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
     }
 
     private void UnsubscribeFromObstacles()
@@ -66,5 +72,9 @@ public class TrackSection : MonoBehaviour
     private void MarkObstacleHit()
     {
         playerHitSomething = true;
+    }
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        enabled = newGameState == GameState.Gameplay;
     }
 }
