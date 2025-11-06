@@ -37,7 +37,8 @@ public class GameManager : MonoBehaviour
         lapText.text = "" + _currentLap + "/" + _totalLaps;
         if (_currentLap >= _totalLaps)
         {
-            //Win Event here
+            //Win Event
+            UIController.Instance.ShowFinishedTrackPanel();
             Debug.Log("Finalizaste la carrera!");
         }
     }
