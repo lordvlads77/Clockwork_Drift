@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: Roads_and_tracks_SpriteSheet1_16
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 6374143940017697832, guid: 32bdc23b6b5b2fd4094935dd37733bce, type: 3}
+  m_Sprite: {fileID: 6374143940017697832, guid: 807561c8ef063194b89e28210e1ad895, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

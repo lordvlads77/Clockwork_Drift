@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class LapSystem : MonoBehaviour
 {
+    [SerializeField] private string tagObjetivo = "Player";
     private void Awake()
     {
         GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
@@ -17,7 +18,10 @@ public class LapSystem : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        GameManager.Instance.IncrementLap();
+        if (other.CompareTag(tagObjetivo))
+        {
+            GameManager.Instance.IncrementLap();
+        }
     }
     
     private void OnGameStateChanged(GameState newGameState)

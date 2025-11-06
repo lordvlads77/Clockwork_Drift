@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6df78eae991e1d0428c2f29ea3f24766
+guid: 735d58a8eab9c2f4bac98f1be3b1faa7
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -32,9 +32,6 @@ TextureImporter:
   - first:
       213: -5806111472663832444
     second: road_objects_9
-  - first:
-      213: 5014696780469159081
-    second: road_objects_10
   - first:
       213: 6464222711657302880
     second: road_objects_11
@@ -127,18 +124,6 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -167,10 +152,10 @@ TextureImporter:
       name: road_objects_1
       rect:
         serializedVersion: 2
-        x: 16
-        y: 32
-        width: 16
-        height: 16
+        x: 19
+        y: 37
+        width: 13
+        height: 8
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -189,9 +174,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 32
-        y: 32
+        y: 37
         width: 16
-        height: 16
+        height: 8
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -210,9 +195,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 48
-        y: 32
-        width: 16
-        height: 16
+        y: 37
+        width: 13
+        height: 8
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -230,10 +215,10 @@ TextureImporter:
       name: road_objects_4
       rect:
         serializedVersion: 2
-        x: 64
-        y: 32
-        width: 16
-        height: 16
+        x: 68
+        y: 37
+        width: 12
+        height: 7
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -252,9 +237,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 80
-        y: 32
+        y: 37
         width: 16
-        height: 16
+        height: 7
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -273,9 +258,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 96
-        y: 32
-        width: 16
-        height: 16
+        y: 37
+        width: 13
+        height: 7
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -294,9 +279,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 112
-        y: 32
-        width: 16
-        height: 16
+        y: 29
+        width: 19
+        height: 19
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -348,27 +333,6 @@ TextureImporter:
       bones: []
       spriteID: 4885d81b06c8c6fa0800000000000000
       internalID: -5806111472663832444
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: road_objects_10
-      rect:
-        serializedVersion: 2
-        x: 112
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9a4c8202728c79540800000000000000
-      internalID: 5014696780469159081
       vertices: []
       indices: 
       edges: []
