@@ -50,15 +50,17 @@ public class UIController : MonoBehaviour
 
         if (pauseMenuPanel != null)
             pauseMenuPanel.SetActive(paused);
+            SFXController.Instance.PlayPauseSFX();
         
         Cursor.visible = paused;
         Cursor.lockState = paused ? CursorLockMode.Confined : CursorLockMode.Locked;
 
         if (!paused)
-        {
+        { 
             if (settingsMenuFromPause != null) settingsMenuFromPause.SetActive(false);
             if (settingsMenuPanel != null && (mainMenuPanel == null || !mainMenuPanel.activeInHierarchy))
                 settingsMenuPanel.SetActive(false);
+                SFXController.Instance.PlayPauseSFX();
         }
     }
     
