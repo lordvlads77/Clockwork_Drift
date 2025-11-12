@@ -42,7 +42,7 @@ public class SFXController : MonoBehaviour
     }
     public void PlayMenuSelectSFX()
     {
-        _sfxAudioSource.PlayOneShot(_menu_SelectClip, 1f);
+        _sfxAudioSource.PlayOneShot(_menu_SelectClip, 8f);
     }
 
     public void PlayPauseSFX()
