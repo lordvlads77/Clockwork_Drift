@@ -28,6 +28,8 @@ public class TopDownMovement : MonoBehaviour
     private float normalDrift;
     private float normalDrag;
 
+    public Animator animator;
+
     private void Awake()
     {
         Instance = this;
@@ -38,6 +40,8 @@ public class TopDownMovement : MonoBehaviour
         
         originalDriftFactor = _driftFactor;
         originalDrag = _elrigido.drag;
+        
+        animator.SetFloat("Rotation", _rotationAngle);
     }
 
     private void FixedUpdate()
@@ -47,6 +51,26 @@ public class TopDownMovement : MonoBehaviour
         ApplyMovementForce();
         ApplySteerinng();
         MurderOrthogonalVelocity();
+    }
+
+    private void Update()
+    {
+        
+        if (Input.GetKeyDown(KeyCode.A))
+            animator.SetBool("Left", true);
+        if (Input.GetKeyUp(KeyCode.A))
+            animator.SetBool("Left", false);
+
+        if (Input.GetKeyDown(KeyCode.D))
+            animator.SetBool("Right", true);
+        if (Input.GetKeyUp(KeyCode.D))
+            animator.SetBool("Right", false);
+
+        if (animator.GetBool("Left") && animator.GetBool("Right"))
+        {
+            animator.SetBool("Left", false);
+            animator.SetBool("Right", false);
+        }
     }
 
     void ApplyMovementForce()
@@ -76,6 +100,7 @@ public class TopDownMovement : MonoBehaviour
         }
         Vector2 engineForceVector = transform.right * _accelaration * _accelarationF;
         _elrigido.AddForce(engineForceVector, ForceMode2D.Force);
+        animator.SetFloat("Move", _velocityRight);
     }
 
     void ApplySteerinng()
@@ -88,7 +113,6 @@ public class TopDownMovement : MonoBehaviour
 
         // Calcula el ángulo final con una respuesta más fluida
         _rotationAngle -= _steering * _turn * steerSensitivity;
-
         // Suaviza el cambio de rotación en lugar de aplicarlo directo
         float smoothRotation = Mathf.LerpAngle(_elrigido.rotation, _rotationAngle, Time.fixedDeltaTime * 8f);
         _elrigido.MoveRotation(smoothRotation);
