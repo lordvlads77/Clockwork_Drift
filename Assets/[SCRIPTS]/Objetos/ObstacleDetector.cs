@@ -5,6 +5,7 @@ public class ObstacleDetector : MonoBehaviour
 {
     public event Action OnPlayerHit;
     private bool alreadyHit = false;
+    public Animator animator;
 
     private void Awake()
     {
@@ -33,6 +34,7 @@ public class ObstacleDetector : MonoBehaviour
         {
             alreadyHit = true;
             OnPlayerHit?.Invoke();
+            animator.SetTrigger("hit");
         }
     }
     private void OnGameStateChanged(GameState newGameState)
