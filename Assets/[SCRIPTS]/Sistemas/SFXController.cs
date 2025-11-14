@@ -7,6 +7,7 @@ public class SFXController : MonoBehaviour
 {
     public static SFXController Instance { get; private set; }
     [SerializeField] private AudioSource _sfxAudioSource = default;
+    [SerializeField] private AudioSource _musicAudioSource = default;
     [SerializeField] private AudioClip _choqueCharcoClip = default;
     [SerializeField] private AudioClip _ChoqueConoClip = default;
     [FormerlySerializedAs("menu_MovClip")] [SerializeField] private AudioClip _menu_MovClip = default;
@@ -48,5 +49,16 @@ public class SFXController : MonoBehaviour
     public void PlayPauseSFX()
     {
         _sfxAudioSource.PlayOneShot(_pauseClip, 1f);
+    }
+
+    public void MuteAll()
+    {
+        _sfxAudioSource.mute = true;
+        _musicAudioSource.mute = true;
+    }
+    public void UnmuteAll()
+    {
+        _sfxAudioSource.mute = false;
+        _musicAudioSource.mute = false;
     }
 }
