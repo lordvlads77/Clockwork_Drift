@@ -18,7 +18,7 @@ public class GameStateManager
     public event GameStateChangeHandler OnGameStateChanged;
     private GameStateManager()
     {
-        
+        CurrentGameState = GameState.Menu;
     }
 
     public void SetState(GameState newGameState)
