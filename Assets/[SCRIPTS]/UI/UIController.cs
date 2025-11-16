@@ -44,6 +44,8 @@ public class UIController : MonoBehaviour
             GameStateManager.Instance.OnGameStateChanged -= HandleGameStateChanged;
     }
     
+    //TODO: Handling of States UI Controller va primero
+    
     private void HandleGameStateChanged(GameState newState)
     {
         bool paused = newState == GameState.Paused;
