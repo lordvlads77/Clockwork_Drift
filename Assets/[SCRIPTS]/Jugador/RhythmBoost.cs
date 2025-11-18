@@ -32,6 +32,17 @@ public class RhythmBoost : MonoBehaviour
     public event Action OnSuccessfulBoost;
     public event Action OnFailedBoost;
 
+    private void Awake()
+    {
+        GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+        enabled = (GameStateManager.Instance.CurrentGameState == GameState.Gameplay);
+    }
+
+    private void OnDestroy()
+    {
+        GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -124,5 +135,10 @@ public class RhythmBoost : MonoBehaviour
         yield return new WaitForSeconds(0.1f); // asegura que todo esté listo
         _audioSource.Play();
         beatTimer = 0f;
+    }
+    
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        enabled = newGameState == GameState.Gameplay;
     }
 }

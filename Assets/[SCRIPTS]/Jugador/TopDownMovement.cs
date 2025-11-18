@@ -37,11 +37,17 @@ public class TopDownMovement : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
+        GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+        enabled = (GameStateManager.Instance.CurrentGameState == GameState.Gameplay);
         originalDriftFactor = _driftFactor;
         originalDrag = _elrigido.drag;
         
         animator.SetFloat("Rotation", _rotationAngle);
+    }
+
+    private void OnDestroy()
+    {
+        GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
     }
 
     private void FixedUpdate()
@@ -198,6 +204,11 @@ public class TopDownMovement : MonoBehaviour
             _driftFactor = normalDrift;
             _elrigido.drag = normalDrag;
         }
+    }
+    
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        enabled = newGameState == GameState.Gameplay;
     }
 }
 

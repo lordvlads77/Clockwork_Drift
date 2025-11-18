@@ -13,6 +13,7 @@ public class Timer : MonoBehaviour
     private void Awake()
     {
         GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+        enabled = GameStateManager.Instance.CurrentGameState == GameState.Gameplay;
     }
 
     private void OnDestroy()

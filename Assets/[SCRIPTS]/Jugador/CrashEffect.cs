@@ -10,6 +10,17 @@ public class CrashEffect : MonoBehaviour
     private AudioSource _audioSource;
     [SerializeField] private AudioClip CrashSoundClip;
 
+    private void Awake()
+    {
+        GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+        enabled = GameStateManager.Instance.CurrentGameState == GameState.Gameplay;
+    }
+
+    private void OnDestroy()
+    {
+        GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
+    }
+
     private void Start()
     {
         _audioSource = GetComponent<AudioSource>();
@@ -29,5 +40,9 @@ public class CrashEffect : MonoBehaviour
     void crearParticula ()
     {
         crashParticle.Play();
+    }
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        enabled = newGameState == GameState.Gameplay;
     }
 }

@@ -22,6 +22,7 @@ public class ConeObstacle : MonoBehaviour
         rb.isKinematic = false;
         rb.gravityScale = 0;
         GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+        enabled = (GameStateManager.Instance.CurrentGameState == GameState.Gameplay);
     }
     private void OnDestroy()
     {
