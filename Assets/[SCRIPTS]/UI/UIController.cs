@@ -43,27 +43,56 @@ public class UIController : MonoBehaviour
         if (GameStateManager.Instance != null)
             GameStateManager.Instance.OnGameStateChanged -= HandleGameStateChanged;
     }
-    
+
+    private void Start()
+    {
+        if (GameStateManager.Instance != null)
+        {
+            HandleGameStateChanged(GameStateManager.Instance.CurrentGameState);
+        }
+    }
+
     //TODO: Handling of States UI Controller va primero
     
     private void HandleGameStateChanged(GameState newState)
     {
         bool paused = newState == GameState.Paused;
+        bool inMenu = newState == GameState.Menu;
+        
+        if (mainMenuPanel != null)
+        {
+            mainMenuPanel.SetActive(inMenu);
+        }
 
         if (pauseMenuPanel != null)
+        {
             pauseMenuPanel.SetActive(paused);
+        }
+
+        if (SFXController.Instance != null)
+        {
             SFXController.Instance.PlayPauseSFX();
+        }
         
-        Cursor.visible = paused;
-        Cursor.lockState = paused ? CursorLockMode.Confined : CursorLockMode.Locked;
+        bool uiActive = inMenu || paused;
+        Cursor.visible = uiActive;
+        Cursor.lockState = uiActive ? CursorLockMode.Confined : CursorLockMode.Locked;
 
         if (!paused)
-        { 
-            if (settingsMenuFromPause != null) settingsMenuFromPause.SetActive(false);
+        {
+            if(settingsMenuFromPause != null)
+                settingsMenuFromPause.SetActive(false);
             if (settingsMenuPanel != null && (mainMenuPanel == null || !mainMenuPanel.activeInHierarchy))
+            {
                 settingsMenuPanel.SetActive(false);
-                SFXController.Instance.PlayPauseSFX();
+            }
         }
+    }
+    
+    public void OnPlayFromMainMenu()
+    {
+        if (GameStateManager.Instance != null)
+            GameStateManager.Instance.SetState(GameState.Gameplay);
     }
     
     public void OnResumeButton()
@@ -102,7 +131,7 @@ public class UIController : MonoBehaviour
     public void ShowSettingsMenu()
     {
         settingsMenuPanel.SetActive(true);
-        if (mainMenuPanel.activeInHierarchy == true)
+        if (mainMenuPanel != null && mainMenuPanel.activeInHierarchy == true)
         {
             mainMenuPanel.SetActive(false);
         }

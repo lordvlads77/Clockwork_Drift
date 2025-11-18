@@ -11,6 +11,7 @@ public class ObstaclePenalty : MonoBehaviour
     {
         detector = GetComponent<ObstacleDetector>();
         GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+        enabled = (GameStateManager.Instance.CurrentGameState == GameState.Gameplay);
     }
 
     private void OnDestroy()

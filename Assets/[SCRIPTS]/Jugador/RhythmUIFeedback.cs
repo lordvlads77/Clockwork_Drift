@@ -24,6 +24,7 @@ public class RhythmUIFeedback : MonoBehaviour
     private void Awake()
     {
         GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+        enabled = (GameStateManager.Instance.CurrentGameState == GameState.Gameplay);
     }
 
     void Start()

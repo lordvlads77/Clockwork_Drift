@@ -21,6 +21,7 @@ public class ScoreManager : MonoBehaviour
             Destroy(gameObject);
         }
         GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+        enabled = (GameStateManager.Instance.CurrentGameState == GameState.Gameplay);
     }
 
     private void OnDestroy()
