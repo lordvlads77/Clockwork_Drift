@@ -1,44 +1,106 @@
-using System.Collections.Generic;
+using System;
 using System.IO;
+using System.Collections.Generic;
 using UnityEngine;
 
-public static class SaveManager
+[Serializable]
+public class RaceResult
 {
-    private static string savePath = Application.persistentDataPath + "/race_records.json";
+    public string trackName;
+    public float time;
+    public int score;
+    public string date;
+}
 
-    [System.Serializable]
-    private class RaceRecordList
+[Serializable]
+public class RaceResultList
+{
+    public List<RaceResult> results = new List<RaceResult>();
+}
+
+public class SaveManager : MonoBehaviour
+{
+    public static SaveManager Instance { get; private set; }
+    private string filePath;
+
+    private void Awake()
     {
-        public List<RaceRecord> records = new List<RaceRecord>();
-    }
-
-    public static void SaveRecord(RaceRecord newRecord)
-    {
-        RaceRecordList data = LoadAllInternal();
-        data.records.Add(newRecord);
-
-        string json = JsonUtility.ToJson(data, true);
-        File.WriteAllText(savePath, json);
-    }
-
-    public static List<RaceRecord> LoadAll()
-    {
-        return LoadAllInternal().records;
-    }
-
-    private static RaceRecordList LoadAllInternal()
-    {
-        if (File.Exists(savePath))
+        if (Instance == null)
         {
-            string json = File.ReadAllText(savePath);
-            return JsonUtility.FromJson<RaceRecordList>(json);
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            filePath = Path.Combine(Application.persistentDataPath, "scores.json");
         }
-        return new RaceRecordList();
+        else
+        {
+            Destroy(gameObject);
+        }
+        
+        DontDestroyOnLoad(gameObject);
+
     }
 
-    public static void ClearAll()
+    public void SaveResult(string trackName, float time, int score)
     {
-        if (File.Exists(savePath))
-            File.Delete(savePath);
+        var list = LoadAllResultsInternal();
+        var result = new RaceResult
+        {
+            trackName = trackName,
+            time = time,
+            score = score,
+            date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+        };
+
+        list.results.Add(result);
+        try
+        {
+            string json = JsonUtility.ToJson(list, true);
+            File.WriteAllText(filePath, json);
+            Debug.Log($"Saved result to {filePath}");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Failed to save results: " + e);
+        }
+    }
+
+    public List<RaceResult> LoadAllResults()
+    {
+        return LoadAllResultsInternal().results;
+    }
+
+    private RaceResultList LoadAllResultsInternal()
+    {
+        if (!File.Exists(filePath))
+        {
+            return new RaceResultList();
+        }
+
+        try
+        {
+            string json = File.ReadAllText(filePath);
+            if (string.IsNullOrEmpty(json))
+                return new RaceResultList();
+
+            return JsonUtility.FromJson<RaceResultList>(json) ?? new RaceResultList();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Failed to load results: " + e);
+            return new RaceResultList();
+        }
+    }
+
+    public void ClearAllResults()
+    {
+        try
+        {
+            if (File.Exists(filePath)) File.Delete(filePath);
+            Debug.Log("Cleared saved scores.");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Failed to clear results: " + e);
+        }
     }
 }

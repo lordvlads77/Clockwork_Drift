@@ -8,7 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/ScoreboardTest.unity
-    guid: 3d5eee5f590426047af9ba240c68837e
+    path: Assets/Scenes/Scoreboard.unity
+    guid: 0d277e1543454f84db81710e21ea90d7
   m_configObjects: {}

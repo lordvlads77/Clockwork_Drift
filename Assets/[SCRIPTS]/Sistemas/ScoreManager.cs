@@ -54,4 +54,15 @@ public class ScoreManager : MonoBehaviour
     {
         enabled = newGameState == GameState.Gameplay;
     }
+    
+    public int GetCurrentScore()
+    {
+        return currentScore;
+    }
+
+    public void ResetScore()
+    {
+        currentScore = 0;
+        UpdateUI();
+    }
 }

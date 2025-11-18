@@ -182,5 +182,10 @@ public class UIController : MonoBehaviour
     {
         finishedtrackPanel.SetActive(true);
     }
+
+    public void Score_board()
+    {
+        SceneManager.LoadScene(1);
+    }
     
 }
