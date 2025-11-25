@@ -21,6 +21,7 @@ public class RhythmBoost : MonoBehaviour
     private double musicStartDSP;
     public AudioSource musicSource;
     private bool restarting = false;
+    [SerializeField] private int pointsForTiming = 5;
 
     private float beatTimer = 0f;
     private Rigidbody2D rb;
@@ -86,6 +87,7 @@ public class RhythmBoost : MonoBehaviour
                 _audioSource.Play();
                 OnSuccessfulBoost?.Invoke();
                 Debug.Log("Perfecto! BOOST");
+                ScoreManager.Instance.AddScore(pointsForTiming);
             }
         }
         else
