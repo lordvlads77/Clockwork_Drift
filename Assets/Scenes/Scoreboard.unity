@@ -562,7 +562,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -17, y: 0}
+  m_SizeDelta: {x: 3, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1336416507
 MonoBehaviour:
@@ -944,7 +944,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Content: {fileID: 0}
+  m_Content: {fileID: 1336416506}
   m_Horizontal: 1
   m_Vertical: 1
   m_MovementType: 1
@@ -1133,6 +1133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contentPanel: {fileID: 1336416506}
   entryPrefab: {fileID: 2556492538500978604, guid: 68b7dc4410ba7b04b8b872f39f1f5354, type: 3}
+  scrollRect: {fileID: 1887873657}
 --- !u!4 &2126331680
 Transform:
   m_ObjectHideFlags: 0
