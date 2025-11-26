@@ -58,6 +58,7 @@ public class UIController : MonoBehaviour
     {
         bool paused = newState == GameState.Paused;
         bool inMenu = newState == GameState.Menu;
+        bool finished = newState == GameState.Finished;
         
         if (mainMenuPanel != null)
         {
@@ -68,13 +69,18 @@ public class UIController : MonoBehaviour
         {
             pauseMenuPanel.SetActive(paused);
         }
+        
+        if (finishedtrackPanel != null)
+        {
+            finishedtrackPanel.SetActive(finished);
+        }
 
         if (SFXController.Instance != null)
         {
             SFXController.Instance.PlayPauseSFX();
         }
         
-        bool uiActive = inMenu || paused;
+        bool uiActive = inMenu || paused || finished;
         Cursor.visible = uiActive;
         Cursor.lockState = uiActive ? CursorLockMode.Confined : CursorLockMode.Locked;
 
@@ -162,16 +168,7 @@ public class UIController : MonoBehaviour
     {
         Application.Quit();
     }
-
-    public void UISoundOn()
-    {
-        //TODO: Add sound on functionality
-    }
     
-    public void UISoundOff()
-    {
-        // TODO: Add sound off functionality
-    }
 
     public void GameReplay()
     {
@@ -180,7 +177,15 @@ public class UIController : MonoBehaviour
     
     public void ShowFinishedTrackPanel()
     {
-        finishedtrackPanel.SetActive(true);
+        if (finishedtrackPanel != null)
+        {
+            finishedtrackPanel.SetActive(true);
+        }
+
+        if (GameStateManager.Instance != null)
+        {
+            GameStateManager.Instance.SetState(GameState.Finished);
+        }
     }
 
     public void Score_board()
