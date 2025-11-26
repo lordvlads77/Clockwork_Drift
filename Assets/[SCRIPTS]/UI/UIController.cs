@@ -172,7 +172,12 @@ public class UIController : MonoBehaviour
 
     public void GameReplay()
     {
-        SceneManager.LoadScene(0);
+        if (GameStateManager.Instance != null)
+        {
+            GameStateManager.Instance.SetState(GameState.Gameplay);
+        }
+        Scene current = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(current.buildIndex);
     }
     
     public void ShowFinishedTrackPanel()
