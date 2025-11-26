@@ -14,9 +14,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI lapText;
     [SerializeField] private int _totalLaps = 3;
     [SerializeField] private int _currentLap = 0;
-
-    [SerializeField] private string trackName = "Pista 1";
-
+    [SerializeField] private string trackName;
+    
     private Timer timer;
     private ScoreManager scoreManager;
 
@@ -32,14 +31,18 @@ public class GameManager : MonoBehaviour
             return;
         }
     }
-
+    
     private void Start()
     {
         timer = FindObjectOfType<Timer>();
         scoreManager = FindObjectOfType<ScoreManager>();
 
+        // Detectar nombre del Track automáticamente
+        trackName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+
         lapText.text = _currentLap + "/" + _totalLaps;
     }
+
 
     public void IncrementLap()
     {
