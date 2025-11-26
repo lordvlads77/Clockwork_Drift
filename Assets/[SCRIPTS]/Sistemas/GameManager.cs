@@ -8,15 +8,17 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    // Evento para los conaos 
+    public static event System.Action<int> OnLapCompleted;
+
     [SerializeField] private TextMeshProUGUI lapText;
     [SerializeField] private int _totalLaps = 3;
     [SerializeField] private int _currentLap = 0;
 
-    // ⬇ NUEVO: nombre de la pista (puedes editarlo en el Inspector)
     [SerializeField] private string trackName = "Pista 1";
 
-    private Timer timer;               // ⬇ NUEVO
-    private ScoreManager scoreManager; // ⬇ NUEVO
+    private Timer timer;
+    private ScoreManager scoreManager;
 
     private void Awake()
     {
@@ -33,32 +35,30 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        // ⬇ NUEVO: Buscar Timer y ScoreManager al iniciar
         timer = FindObjectOfType<Timer>();
         scoreManager = FindObjectOfType<ScoreManager>();
 
-        // Mostrar texto inicial de vuelta
         lapText.text = _currentLap + "/" + _totalLaps;
     }
-
 
     public void IncrementLap()
     {
         _currentLap++;
         lapText.text = _currentLap + "/" + _totalLaps;
 
+       
+        OnLapCompleted?.Invoke(_currentLap);
+
         if (_currentLap >= _totalLaps)
         {
-            //Win Event
             UIController.Instance.ShowFinishedTrackPanel();
             Debug.Log("Finalizaste la carrera!");
 
-            // ⬇ NUEVO: guardar datos de la carrera
+            // Guardar datos de carrera
             SaveRaceResult();
         }
     }
 
-    // ⬇ NUEVO: método para guardar el resultado
     private void SaveRaceResult()
     {
         if (SaveManager.Instance == null)
