@@ -14,7 +14,7 @@ public class ScoreboardController : MonoBehaviour
 
     private IEnumerator Start()
     {
-        // Espera 1 frame para asegurar que SaveManager esté listo y que el hierarchy esté estable
+        
         yield return null;
 
         if (SaveManager.Instance == null)
