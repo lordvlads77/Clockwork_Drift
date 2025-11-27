@@ -7,29 +7,37 @@ using System;
 
 public class RhythmBoost : MonoBehaviour
 {
-    [Header("Ritmo")]
-    public float songBPM = 70f;
-    public float beatInterval;
-    public float tolerance = 0.2f;      // Margen de error
-    public float boostForce = 200f;     // Fuerza extra en boost
-    public float penaltySlowdown = 0.5f;// Multiplicador de freno (0 = detiene por completo)
-    public ParticleSystem ParticulaBoost;
-    [SerializeField] private AudioClip BoostSoundClip;
-    private AudioSource _audioSource;
-    [SerializeField] private AudioClip failSoundClip;
-    private AudioSource failSource;
-    private double musicStartDSP;
-    public AudioSource musicSource;
-    private bool restarting = false;
-    [SerializeField] private int pointsForTiming = 5;
+[Header("Beatmap")]
+    public List<float> beatTimes = new List<float>(); 
+    private int currentBeatIndex = 0;
+    private float songTime = 0f;
 
-    private float beatTimer = 0f;
+    [Header("Timing")]
+    public float tolerance = 0.15f; 
+
+    [Header("Boost")]
+    public float boostForce = 200f;
+    public float penaltySlowdown = 0.5f;
+    public ParticleSystem ParticulaBoost;
+
+    [Header("Audio")]
+    public AudioSource musicSource;
+    public AudioClip BoostSoundClip;
+    public AudioClip failSoundClip;
+    private AudioSource sfxSource;
+
+    [Header("Score")]
+    public int pointsForTiming = 5;
+
     private Rigidbody2D rb;
-    //private Movement movementScript;
-    
-    public delegate void BeatEvent();
-    public event BeatEvent OnBeat;
-    
+    private double musicStartDSP;
+    private bool restarting = false;
+    private bool waitingForMusicStart = false;
+
+    private enum BeatState { Pending, Triggered, Processed }
+    private BeatState beatState = BeatState.Pending;
+
+    public event Action OnBeat;
     public event Action OnSuccessfulBoost;
     public event Action OnFailedBoost;
 
@@ -47,98 +55,164 @@ public class RhythmBoost : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        _audioSource = GetComponent<AudioSource>();
-        failSource = GetComponent<AudioSource>();
-        beatInterval = 60f / songBPM;
-        double startTime = AudioSettings.dspTime + 0.2; // arranca en tiempo DSP real
-        musicSource.PlayScheduled(startTime);
-        musicStartDSP = startTime;
+        sfxSource = gameObject.AddComponent<AudioSource>();
+
+        if (musicSource != null)
+        {
+            double startTime = AudioSettings.dspTime + 0.2;
+            musicSource.PlayScheduled(startTime);
+            musicStartDSP = startTime;
+        }
     }
 
     void Update()
     {
-        float prevTime = beatTimer;
-        beatTimer = (float)(AudioSettings.dspTime - musicStartDSP) % beatInterval;
-        if (beatTimer > beatInterval)
+        if (waitingForMusicStart)
+            return;
+
+        if (musicSource == null || beatTimes == null || beatTimes.Count == 0)
+            return;
+
+        songTime = Mathf.Max(0f, (float)(AudioSettings.dspTime - musicStartDSP));
+
+        currentBeatIndex = Mathf.Clamp(currentBeatIndex, 0, beatTimes.Count - 1);
+        float nextBeat = beatTimes[currentBeatIndex];
+
+        // Trigger de beat
+        if (beatState == BeatState.Pending &&
+            songTime >= nextBeat - tolerance &&
+            songTime <= nextBeat + tolerance)
         {
-            beatTimer -= beatInterval;
+            beatState = BeatState.Triggered;
             OnBeat?.Invoke();
+        }
+
+        // Se pasó la ventana -> ignorado
+        if ((beatState == BeatState.Pending || beatState == BeatState.Triggered) &&
+            songTime > nextBeat + tolerance)
+        {
+            ProcessNextBeat();
+            return;
         }
 
         if (Input.GetMouseButtonDown(0))
             CheckBeat();
-        
-        
     }
-    void crearParticula()
+
+    // NUEVO — reinicio correcto al acabar todos los beats
+    private void ProcessNextBeat()
     {
-        ParticulaBoost.Play();
+        beatState = BeatState.Processed;
+        currentBeatIndex++;
+
+        if (currentBeatIndex >= beatTimes.Count)
+        {
+            // Reinicio del beatmap sin fallar y sin reiniciar música
+            currentBeatIndex = 0;
+            beatState = BeatState.Pending;
+            songTime = 0f;
+
+            // Ajustamos el DSP para que coincida con tiempo 0 sin cortar la música
+            musicStartDSP = AudioSettings.dspTime;
+
+            return;
+        }
+
+        beatState = BeatState.Pending;
     }
+
     void CheckBeat()
     {
-        if (beatTimer <= tolerance || beatTimer >= beatInterval - tolerance)
+        float nextBeat = beatTimes[currentBeatIndex];
+
+        if (Mathf.Abs(songTime - nextBeat) <= tolerance)
         {
-            Vector2 boostDir = rb.velocity.normalized; // dirección del movimiento actual
-            if (boostDir.sqrMagnitude > 0.1f)
+            Vector2 dir = rb.velocity.normalized;
+
+            if (dir.sqrMagnitude > 0.05f)
             {
-                rb.AddForce(boostDir * boostForce, ForceMode2D.Impulse);
-                crearParticula();
-                _audioSource.clip = BoostSoundClip;
-                _audioSource.Play();
+                rb.AddForce(dir * boostForce, ForceMode2D.Impulse);
+                ParticulaBoost?.Play();
+
+                if (BoostSoundClip != null)
+                    sfxSource.PlayOneShot(BoostSoundClip);
+
                 OnSuccessfulBoost?.Invoke();
-                Debug.Log("Perfecto! BOOST");
-                ScoreManager.Instance.AddScore(pointsForTiming);
+                ScoreManager.Instance?.AddScore(pointsForTiming);
             }
+
+            beatState = BeatState.Processed;
+            currentBeatIndex++;
+
+            if (currentBeatIndex >= beatTimes.Count)
+            {
+                currentBeatIndex = 0;
+                beatState = BeatState.Pending;
+                songTime = 0f;
+                musicStartDSP = AudioSettings.dspTime;
+                return;
+            }
+
+            beatState = BeatState.Pending;
         }
         else
         {
-            rb.velocity *= penaltySlowdown; 
-            beatTimer = 0; // Reiniciar timing
-            Debug.Log("Fallo!");
-            OnFailedBoost?.Invoke();
-            failSource.clip = failSoundClip;
-            failSource.Play();
-            if (!restarting)
-                StartCoroutine(RestartMusic());
+            if (beatState != BeatState.Processed)
+            {
+                beatState = BeatState.Processed;
+                HandleMiss();
+            }
         }
     }
+
+    private void HandleMiss()
+    {
+        rb.velocity *= penaltySlowdown;
+        OnFailedBoost?.Invoke();
+
+        if (failSoundClip != null)
+            sfxSource.PlayOneShot(failSoundClip);
+
+        StartCoroutine(RestartMusic());
+    }
+
     IEnumerator RestartMusic()
     {
+        if (restarting) yield break;
         restarting = true;
 
-        // Silenciar la música de inmediato
         musicSource.Stop();
+        yield return new WaitForSeconds(0.25f);
 
-        // Esperar medio segundo
-        yield return new WaitForSeconds(0.5f);
+        waitingForMusicStart = true;
+        currentBeatIndex = 0;
+        beatState = BeatState.Pending;
+        songTime = 0f;
 
-        // Programamos inicio preciso con DSP
         double startTime = AudioSettings.dspTime + 0.05;
         musicSource.PlayScheduled(startTime);
-
         musicStartDSP = startTime;
 
-        // Resetear beat timer para mantener sincronía
-        beatTimer = 0f;
-
+        yield return new WaitForSeconds(0.05f);
+        waitingForMusicStart = false;
         restarting = false;
     }
+
     public float GetBeatProgress()
     {
-        return beatTimer / beatInterval;
+        int idxNext = Mathf.Clamp(currentBeatIndex, 0, beatTimes.Count - 1);
+        float prevTime = (idxNext > 0) ? beatTimes[idxNext - 1] : 0f;
+        float nextTime = beatTimes[idxNext];
+        float duration = Mathf.Max(0.0001f, nextTime - prevTime);
+        return Mathf.Clamp01((songTime - prevTime) / duration);
     }
 
     public bool IsInTimingWindow()
     {
-        return (beatTimer <= tolerance || beatTimer >= beatInterval - tolerance);
+        float nextBeat = beatTimes[Mathf.Clamp(currentBeatIndex, 0, beatTimes.Count - 1)];
+        return Mathf.Abs(songTime - nextBeat) <= tolerance;
     }
-    IEnumerator StartMusicSync()
-    {
-        yield return new WaitForSeconds(0.1f); // asegura que todo esté listo
-        _audioSource.Play();
-        beatTimer = 0f;
-    }
-    
+
     private void OnGameStateChanged(GameState newGameState)
     {
         enabled = newGameState == GameState.Gameplay;
