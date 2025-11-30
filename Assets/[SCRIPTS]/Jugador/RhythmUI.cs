@@ -5,7 +5,7 @@ using UnityEngine;
 using  UnityEngine.UI;
 public class RhythmUI : MonoBehaviour
 { 
-    [Header("Referencias")]
+[Header("Referencias")]
     public RhythmBoost rhythm;   // Script de ritmo
     public RectTransform leftBar;
     public RectTransform rightBar;
