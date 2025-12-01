@@ -4,9 +4,11 @@ public class OilSpill : MonoBehaviour
 {
     [SerializeField] private float slipDuration = 2f;
     [SerializeField] private float slipForce = 2f;
-
+    private AudioSource _audioSource;
+    [SerializeField] private AudioClip ImpactClip;
     private void Awake()
     {
+        _audioSource = GetComponent<AudioSource>();
         GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
         enabled = (GameStateManager.Instance.CurrentGameState == GameState.Gameplay);
     }
@@ -24,6 +26,8 @@ public class OilSpill : MonoBehaviour
         if (car != null)
         {
             car.Slip(slipDuration, slipForce);
+            _audioSource.clip = ImpactClip;
+            _audioSource.Play();
         }
     }
     private void OnGameStateChanged(GameState newGameState)

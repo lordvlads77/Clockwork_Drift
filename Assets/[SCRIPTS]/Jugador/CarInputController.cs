@@ -7,9 +7,11 @@ public class CarInputController : MonoBehaviour
 {
     public static CarInputController Instance { get; private set; }
     public ParticleSystem Particuladerrape;
-
+    private AudioSource _audioSource;
+    [SerializeField] private AudioClip DriftSoundClip;
     private void Awake()
     {
+        _audioSource = GetComponent<AudioSource>();
         Instance = this;
         if (Instance != this)
         {
@@ -44,6 +46,8 @@ public class CarInputController : MonoBehaviour
     void crearParticula()
     {
         Particuladerrape.Play();
+        _audioSource.clip = DriftSoundClip;
+        _audioSource.Play();
     }
     private void OnGameStateChanged(GameState newGameState)
     {
