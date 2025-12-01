@@ -10,6 +10,8 @@ public class ConeObstacle : MonoBehaviour
     [SerializeField] private float conePushForce = 3f;
     [SerializeField] private float speedReductionFactor = 0.5f;
     [SerializeField] private float slowDuration = 2f;
+    private AudioSource _audioSource;
+    [SerializeField] private AudioClip ImpactClip;
     [SerializeField] private float disappearDelay = 1.5f;
 
     private bool hasBeenHit = false;
@@ -22,6 +24,7 @@ public class ConeObstacle : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        _audioSource = GetComponent<AudioSource>();
         rb.isKinematic = false;
         rb.gravityScale = 0;
 
@@ -49,6 +52,8 @@ public class ConeObstacle : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
+            _audioSource.clip = ImpactClip;
+            _audioSource.Play();
             hasBeenHit = true;
 
             Rigidbody2D playerRb = other.GetComponent<Rigidbody2D>();
