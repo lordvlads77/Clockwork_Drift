@@ -1,41 +1,45 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 public class UIController : MonoBehaviour
 {
     public static UIController Instance { get; private set; }
-    [FormerlySerializedAs("_mainMenuPanel")]
+
     [Header("Main Menu UI Panel")]
     [SerializeField] private GameObject mainMenuPanel;
+
     [Header("Pause Menu UI Panel")]
     [SerializeField] private GameObject pauseMenuPanel;
+
     [Header("Settings Menu UI Panel")]
     [SerializeField] private GameObject settingsMenuPanel;
-    [Header("Settings Menu from Pause Panel GObject")]
-    [SerializeField] private GameObject settingsMenuFromPause = default;
-    [SerializeField] private GameObject finishedtrackPanel = default;
+
+    [Header("Settings Menu from Pause Panel")]
+    [SerializeField] private GameObject settingsMenuFromPause;
+
+    [Header("Finished Track UI Panel")]
+    [SerializeField] private GameObject finishedtrackPanel;
+
+    [Header("Tutorial Track 1 Panel")]
+    [SerializeField] private GameObject tutorialPanel;
+
+    private TutorialTrack1 tutorialScript;
 
     private void Awake()
     {
         if (Instance == null)
-        {
             Instance = this;
-        }
-        else if (Instance != this)
+        else
         {
             Destroy(gameObject);
             return;
         }
     }
-    
+
     private void OnEnable()
     {
-        // Nos suscribimos al cambio de estado del juego
-        GameStateManager.Instance.OnGameStateChanged += HandleGameStateChanged;
+        if (GameStateManager.Instance != null)
+            GameStateManager.Instance.OnGameStateChanged += HandleGameStateChanged;
     }
 
     private void OnDisable()
@@ -46,156 +50,111 @@ public class UIController : MonoBehaviour
 
     private void Start()
     {
+        if (tutorialPanel != null)
+            tutorialScript = tutorialPanel.GetComponent<TutorialTrack1>();
+
         if (GameStateManager.Instance != null)
-        {
             HandleGameStateChanged(GameStateManager.Instance.CurrentGameState);
-        }
     }
 
-    //TODO: Handling of States UI Controller va primero
-    
     private void HandleGameStateChanged(GameState newState)
     {
         bool paused = newState == GameState.Paused;
         bool inMenu = newState == GameState.Menu;
         bool finished = newState == GameState.Finished;
-        
-        if (mainMenuPanel != null)
+
+        if (mainMenuPanel != null) mainMenuPanel.SetActive(inMenu);
+        if (pauseMenuPanel != null) pauseMenuPanel.SetActive(paused);
+        if (finishedtrackPanel != null) finishedtrackPanel.SetActive(finished);
+
+        Cursor.visible = inMenu || paused || finished;
+        Cursor.lockState = (inMenu || paused || finished) ?
+            CursorLockMode.Confined : CursorLockMode.Locked;
+
+        // --------- Mostrar/Ocultar texto de tutorial ----------
+        if (tutorialScript != null)
         {
-            mainMenuPanel.SetActive(inMenu);
+            if (paused)
+                tutorialScript.PauseTutorial();   // oculta panel de tutorial
+            else if (newState == GameState.Gameplay)
+                tutorialScript.ResumeTutorial();  // muestra panel de tutorial
         }
 
-        if (pauseMenuPanel != null)
-        {
-            pauseMenuPanel.SetActive(paused);
-        }
-        
-        if (finishedtrackPanel != null)
-        {
-            finishedtrackPanel.SetActive(finished);
-        }
-
-        if (SFXController.Instance != null)
-        {
-            SFXController.Instance.PlayPauseSFX();
-        }
-        
-        bool uiActive = inMenu || paused || finished;
-        Cursor.visible = uiActive;
-        Cursor.lockState = uiActive ? CursorLockMode.Confined : CursorLockMode.Locked;
-
+        // Ocultar settings si no estamos en pausa
         if (!paused)
         {
-            if(settingsMenuFromPause != null)
+            if (settingsMenuFromPause != null)
                 settingsMenuFromPause.SetActive(false);
-            if (settingsMenuPanel != null && (mainMenuPanel == null || !mainMenuPanel.activeInHierarchy))
-            {
+
+            if (settingsMenuPanel != null &&
+                (mainMenuPanel == null || !mainMenuPanel.activeInHierarchy))
                 settingsMenuPanel.SetActive(false);
-            }
         }
     }
-    
+
+    // --- PRESIONASTE PLAY EN EL MENÚ ---
     public void OnPlayFromMainMenu()
     {
-        if (GameStateManager.Instance != null)
-            GameStateManager.Instance.SetState(GameState.Gameplay);
+        GameStateManager.Instance.SetState(GameState.Gameplay);
+
+        if (mainMenuPanel != null)
+            mainMenuPanel.SetActive(false);
+
+        // Mostrar tutorial solamente la primera vez
+        if (PlayerPrefs.GetInt("TutorialTrack1", 0) == 0)
+        {
+            if (tutorialScript != null)
+                tutorialScript.StartTutorial();
+        }
     }
-    
+
     public void OnResumeButton()
     {
-        if (GameStateManager.Instance != null)
-            GameStateManager.Instance.SetState(GameState.Gameplay);
+        GameStateManager.Instance.SetState(GameState.Gameplay);
     }
+
+    public void ShowPauseMenu() => pauseMenuPanel.SetActive(true);
+    public void HidePauseMenu() => pauseMenuPanel.SetActive(false);
 
     public void OnOpenSettingsFromPause()
     {
-        if (settingsMenuFromPause != null) settingsMenuFromPause.SetActive(true);
-        if (pauseMenuPanel != null) pauseMenuPanel.SetActive(false);
-    }
-
-    /*public void OnBackFromSettingsToPause()
-    {
-        if (settingsMenuFromPause != null) settingsMenuFromPause.SetActive(false);
-        if (pauseMenuPanel != null) pauseMenuPanel.SetActive(true);
-    }*/
-
-    public void HideMainMenu()
-    {
-        mainMenuPanel.SetActive(false);
-    }
-    
-    public void ShowPauseMenu()
-    {
-        pauseMenuPanel.SetActive(true);
-    }
-
-    public void HidePauseMenu()
-    {
+        settingsMenuFromPause.SetActive(true);
         pauseMenuPanel.SetActive(false);
     }
 
-    public void ShowSettingsMenu()
-    {
-        settingsMenuPanel.SetActive(true);
-        if (mainMenuPanel != null && mainMenuPanel.activeInHierarchy == true)
-        {
-            mainMenuPanel.SetActive(false);
-        }
-        else if (pauseMenuPanel.activeInHierarchy == true)
-        {
-            pauseMenuPanel.SetActive(false);
-        }
-    }
-    
-    public void ShowSettingsMenuFromPause()
-    {
-        settingsMenuFromPause.SetActive(true);
-        //pauseMenuPanel.SetActive(false);
-    }
+    public void ShowSettingsMenu() => settingsMenuPanel.SetActive(true);
 
     public void HideSettingsMainMenu()
     {
         settingsMenuPanel.SetActive(false);
         mainMenuPanel.SetActive(true);
     }
+
     public void HideSettingsPauseMenu()
     {
         settingsMenuFromPause.SetActive(false);
         pauseMenuPanel.SetActive(true);
     }
 
-    public void QuitGame()
-    {
-        Application.Quit();
-    }
-    
+    public void QuitGame() => Application.Quit();
 
     public void GameReplay()
     {
-        if (GameStateManager.Instance != null)
-        {
-            GameStateManager.Instance.SetState(GameState.Gameplay);
-        }
+        GameStateManager.Instance.SetState(GameState.Gameplay);
         Scene current = SceneManager.GetActiveScene();
         SceneManager.LoadScene(current.buildIndex);
     }
-    
+
     public void ShowFinishedTrackPanel()
     {
         if (finishedtrackPanel != null)
-        {
             finishedtrackPanel.SetActive(true);
-        }
 
-        if (GameStateManager.Instance != null)
-        {
-            GameStateManager.Instance.SetState(GameState.Finished);
-        }
+        GameStateManager.Instance.SetState(GameState.Finished);
     }
 
     public void Score_board()
     {
         SceneManager.LoadScene(1);
     }
-    
 }
