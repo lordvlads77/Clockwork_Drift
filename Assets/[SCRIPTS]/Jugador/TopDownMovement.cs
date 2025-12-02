@@ -137,20 +137,33 @@ public class TopDownMovement : MonoBehaviour
         _accelaration = inputVector.y;
     }
     
+    private Coroutine slipRoutine;
+
     public void Slip(float duration, float slipForce)
     {
-        if (!isSlipping)
-            StartCoroutine(SlipCoroutine(duration, slipForce));
+        // Si ya hay un resbalón activo, cancelarlo antes de iniciar otro
+        if (slipRoutine != null)
+            StopCoroutine(slipRoutine);
+
+        slipRoutine = StartCoroutine(SlipCoroutine(duration, slipForce));
     }
 
     private IEnumerator SlipCoroutine(float duration, float slipForce)
     {
         isSlipping = true;
 
-        
-        _driftFactor = 1f;             
-        _elrigido.drag = 0.2f;         
-        Vector2 slipDir = _elrigido.velocity.normalized;
+        // Guardar valores actuales (importante, porque handbrake, cones o freno cambian estos valores)
+        float savedDrift = _driftFactor;
+        float savedDrag = _elrigido.drag;
+
+        // Aplicar efecto del resbalón
+        _driftFactor = 1f;
+        _elrigido.drag = 0.2f;
+
+        // Definir dirección del resbalón
+        Vector2 slipDir = _elrigido.velocity.magnitude > 0.1f
+            ? _elrigido.velocity.normalized
+            : (Vector2)transform.right;
 
         float timer = 0f;
         while (timer < duration)
@@ -159,10 +172,13 @@ public class TopDownMovement : MonoBehaviour
             timer += Time.deltaTime;
             yield return null;
         }
-        
-        _driftFactor = originalDriftFactor;
-        _elrigido.drag = originalDrag;
+
+        // Restaurar valores correctos
+        _driftFactor = savedDrift;
+        _elrigido.drag = savedDrag;
+
         isSlipping = false;
+        slipRoutine = null;
     }
     
     public void HitCone(float impactForce, float recoveryTime)
