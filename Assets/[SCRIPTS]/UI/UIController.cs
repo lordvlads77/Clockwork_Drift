@@ -66,7 +66,11 @@ public class UIController : MonoBehaviour
         if (mainMenuPanel != null) mainMenuPanel.SetActive(inMenu);
         if (pauseMenuPanel != null) pauseMenuPanel.SetActive(paused);
         if (finishedtrackPanel != null) finishedtrackPanel.SetActive(finished);
-
+        
+        if (SFXController.Instance != null)
+        {
+            SFXController.Instance.PlayPauseSFX();
+        }
         Cursor.visible = inMenu || paused || finished;
         Cursor.lockState = (inMenu || paused || finished) ?
             CursorLockMode.Confined : CursorLockMode.Locked;
