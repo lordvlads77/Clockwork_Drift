@@ -24,6 +24,10 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject tutorialPanel;
 
     private TutorialTrack1 tutorialScript;
+    [Header("Settings Menu from Pause Panel GObject")]
+    [SerializeField] private GameObject settingsMenuFromPause = default;
+    [SerializeField] private GameObject finishedtrackPanel = default;
+    [SerializeField] private GameObject LevelsPanel = default;
 
     private void Awake()
     {
@@ -122,11 +126,54 @@ public class UIController : MonoBehaviour
 
     public void OnOpenSettingsFromPause()
     {
-        settingsMenuFromPause.SetActive(true);
+        if (settingsMenuFromPause != null) settingsMenuFromPause.SetActive(true);
+        if (pauseMenuPanel != null) pauseMenuPanel.SetActive(false);
+    }
+
+    /*public void OnBackFromSettingsToPause()
+    {
+        if (settingsMenuFromPause != null) settingsMenuFromPause.SetActive(false);
+        if (pauseMenuPanel != null) pauseMenuPanel.SetActive(true);
+    }*/
+
+    public void HideMainMenu()
+    {
+        mainMenuPanel.SetActive(false);
+    }
+
+    public void HidePauseMenu()
+    {
         pauseMenuPanel.SetActive(false);
     }
 
-    public void ShowSettingsMenu() => settingsMenuPanel.SetActive(true);
+    public void ShowSettingsMenu()
+    {
+        settingsMenuPanel.SetActive(true);
+        if (mainMenuPanel != null && mainMenuPanel.activeInHierarchy == true)
+        {
+            mainMenuPanel.SetActive(false);
+        }
+        else if (pauseMenuPanel.activeInHierarchy == true)
+        {
+            pauseMenuPanel.SetActive(false);
+        }
+    }
+    
+    public void ToLevelsMenu()
+    {
+        LevelsPanel.SetActive(true);
+    }
+    
+    public void BackFromLevelsMenu()
+    {
+        LevelsPanel.SetActive(false);
+    }
+    
+    public void ShowSettingsMenuFromPause()
+    {
+        settingsMenuFromPause.SetActive(true);
+        //pauseMenuPanel.SetActive(false);
+    }
 
     public void HideSettingsMainMenu()
     {
