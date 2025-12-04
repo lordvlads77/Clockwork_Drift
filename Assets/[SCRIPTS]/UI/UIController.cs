@@ -14,9 +14,6 @@ public class UIController : MonoBehaviour
     [Header("Settings Menu UI Panel")]
     [SerializeField] private GameObject settingsMenuPanel;
 
-    [Header("Settings Menu from Pause Panel")]
-    [SerializeField] private GameObject settingsMenuFromPause;
-
     [Header("Finished Track UI Panel")]
     [SerializeField] private GameObject finishedtrackPanel;
 
@@ -26,7 +23,6 @@ public class UIController : MonoBehaviour
     private TutorialTrack1 tutorialScript;
     [Header("Settings Menu from Pause Panel GObject")]
     [SerializeField] private GameObject settingsMenuFromPause = default;
-    [SerializeField] private GameObject finishedtrackPanel = default;
     [SerializeField] private GameObject LevelsPanel = default;
 
     private void Awake()
@@ -139,11 +135,6 @@ public class UIController : MonoBehaviour
     public void HideMainMenu()
     {
         mainMenuPanel.SetActive(false);
-    }
-
-    public void HidePauseMenu()
-    {
-        pauseMenuPanel.SetActive(false);
     }
 
     public void ShowSettingsMenu()
