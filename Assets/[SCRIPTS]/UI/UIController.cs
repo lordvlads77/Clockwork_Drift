@@ -159,12 +159,6 @@ public class UIController : MonoBehaviour
     {
         LevelsPanel.SetActive(false);
     }
-    
-    public void ShowSettingsMenuFromPause()
-    {
-        settingsMenuFromPause.SetActive(true);
-        //pauseMenuPanel.SetActive(false);
-    }
 
     public void HideSettingsMainMenu()
     {
@@ -197,6 +191,24 @@ public class UIController : MonoBehaviour
 
     public void Score_board()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
+    
+    public void LoadLevelFromLevelsMenu(int buildIndex)
+    {
+        // Queremos entrar directo en modo Gameplay
+        if (GameStateManager.Instance != null)
+            GameStateManager.Instance.SetState(GameState.Gameplay);
+
+        // Opcional: por si estás en el mismo scene y tienes UI overlay
+        if (mainMenuPanel != null)
+            mainMenuPanel.SetActive(false);
+
+        if (LevelsPanel != null)
+            LevelsPanel.SetActive(false);
+
+        // Cargar la pista (otra escena)
+        SceneManager.LoadScene(buildIndex);
+    }
+
 }
