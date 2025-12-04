@@ -1,21 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; // ScrollRect
-using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class ScoreboardController : MonoBehaviour
 {
     [Header("References")]
-    public RectTransform contentPanel;     // asignar: ScrollView/Viewport/Content (RectTransform)
-    public GameObject entryPrefab;         // asignar: ScoreEntryPrefab
-    public ScrollRect scrollRect;          // asignar: Scroll_View_score (ScrollRect)
+    public RectTransform contentPanel;     
+    public GameObject entryPrefab;         
+    public ScrollRect scrollRect;          
 
     private IEnumerator Start()
     {
-        
-        yield return null;
+        // Esperar un frame para que ScrollView inicialice
+        yield return new WaitForEndOfFrame();
 
         if (SaveManager.Instance == null)
         {
@@ -23,16 +21,20 @@ public class ScoreboardController : MonoBehaviour
             yield break;
         }
 
+        // Obtener resultados
         var results = SaveManager.Instance.LoadAllResults();
         Debug.Log("----------- SCOREBOARD DEBUG ----------");
         Debug.Log("SaveManager.Instance = " + SaveManager.Instance);
         Debug.Log("Resultados cargados = " + (results != null ? results.Count : -1));
 
-        // limpia hijos previos
+        // Ordenar por fecha (más reciente primero)
+        results.Sort((a, b) =>
+            System.DateTime.Parse(b.date).CompareTo(System.DateTime.Parse(a.date))
+        );
+
+        // Limpiar el Content
         for (int i = contentPanel.childCount - 1; i >= 0; i--)
-        {
             Destroy(contentPanel.GetChild(i).gameObject);
-        }
 
         if (results == null || results.Count == 0)
         {
@@ -40,29 +42,29 @@ public class ScoreboardController : MonoBehaviour
             yield break;
         }
 
-        // Instanciar Entries
+        // Crear entradas
         foreach (var r in results)
         {
-            GameObject go = Instantiate(entryPrefab);
-            go.transform.SetParent(contentPanel, false); // importante: false para mantener rect transform
-            // asegurar escala y anchura correctas
-            var rt = go.GetComponent<RectTransform>();
+            GameObject go = Instantiate(entryPrefab, contentPanel, false);
+
+            RectTransform rt = go.GetComponent<RectTransform>();
             if (rt != null)
-            {
                 rt.localScale = Vector3.one;
-            }
-            var entryUI = go.GetComponent<ScoreEntryUI>();
+
+            ScoreEntryUI entryUI = go.GetComponent<ScoreEntryUI>();
             if (entryUI != null)
                 entryUI.Setup(r);
-
-            Debug.Log("Instancié: " + go.name);
         }
 
-        // Forzar actualización del layout y canvas para que Unity calcule tamaños
+        // 🔥 FIX DEFINITIVO AL PARPADEO:
+        yield return null; // esperar 1 frame más
         Canvas.ForceUpdateCanvases();
         LayoutRebuilder.ForceRebuildLayoutImmediate(contentPanel);
 
-        // Mover scroll al top (mejor tiempo primero)
+        yield return null; // esperar 1 frame más
+        LayoutRebuilder.ForceRebuildLayoutImmediate(contentPanel);
+
+        // Posicionar el scroll en la parte superior
         if (scrollRect != null)
         {
             scrollRect.verticalNormalizedPosition = 1f;
