@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,7 +24,10 @@ public class UIController : MonoBehaviour
     private TutorialTrack1 tutorialScript;
     [Header("Settings Menu from Pause Panel GObject")]
     [SerializeField] private GameObject settingsMenuFromPause = default;
+    [Header("Levels Menu Panel")]
     [SerializeField] private GameObject LevelsPanel = default;
+    [Header("Loading UI Panel")]
+    [SerializeField] private GameObject LoadingPanel = default;
 
     private void Awake()
     {
@@ -71,6 +75,7 @@ public class UIController : MonoBehaviour
         {
             SFXController.Instance.PlayPauseSFX();
         }
+        
         Cursor.visible = inMenu || paused || finished;
         Cursor.lockState = (inMenu || paused || finished) ?
             CursorLockMode.Confined : CursorLockMode.Locked;
@@ -159,12 +164,6 @@ public class UIController : MonoBehaviour
     {
         LevelsPanel.SetActive(false);
     }
-    
-    public void ShowSettingsMenuFromPause()
-    {
-        settingsMenuFromPause.SetActive(true);
-        //pauseMenuPanel.SetActive(false);
-    }
 
     public void HideSettingsMainMenu()
     {
@@ -197,6 +196,37 @@ public class UIController : MonoBehaviour
 
     public void Score_board()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
+    
+    public void LoadLevelFromLevelsMenu(int buildIndex)
+    {
+        if (LoadingPanel != null)
+        {
+            LoadingPanel.SetActive(true);
+        }
+
+        // Opcional: por si estás en el mismo scene y tienes UI overlay
+        if (mainMenuPanel != null)
+            mainMenuPanel.SetActive(false);
+
+        if (LevelsPanel != null)
+            LevelsPanel.SetActive(false);
+        
+        StartCoroutine(LoadLevelRoutine(buildIndex));
+    }
+
+    private IEnumerator LoadLevelRoutine(int buildIndex)
+    {
+        //Changing GameState to Gameplay
+        if (GameStateManager.Instance != null)
+        {
+            GameStateManager.Instance.SetState(GameState.Gameplay);
+        }
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(buildIndex);
+        asyncLoad.allowSceneActivation = true; //Cuando termine de cargar entrara la escena
+
+        yield return null;
+    }
+
 }
