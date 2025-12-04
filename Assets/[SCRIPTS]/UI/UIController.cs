@@ -18,6 +18,7 @@ public class UIController : MonoBehaviour
     [Header("Settings Menu from Pause Panel GObject")]
     [SerializeField] private GameObject settingsMenuFromPause = default;
     [SerializeField] private GameObject finishedtrackPanel = default;
+    [SerializeField] private GameObject LevelsPanel = default;
 
     private void Awake()
     {
@@ -123,11 +124,6 @@ public class UIController : MonoBehaviour
     {
         mainMenuPanel.SetActive(false);
     }
-    
-    public void ShowPauseMenu()
-    {
-        pauseMenuPanel.SetActive(true);
-    }
 
     public void HidePauseMenu()
     {
@@ -145,6 +141,16 @@ public class UIController : MonoBehaviour
         {
             pauseMenuPanel.SetActive(false);
         }
+    }
+    
+    public void ToLevelsMenu()
+    {
+        LevelsPanel.SetActive(true);
+    }
+    
+    public void BackFromLevelsMenu()
+    {
+        LevelsPanel.SetActive(false);
     }
     
     public void ShowSettingsMenuFromPause()
