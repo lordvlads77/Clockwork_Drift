@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public static int LastTrackSceneIndex { get; private set; }
 
-    // Evento para los conaos 
+    // Evento para los conos 
     public static event System.Action<int> OnLapCompleted;
 
     [SerializeField] private TextMeshProUGUI lapText;
@@ -30,6 +32,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        LastTrackSceneIndex = SceneManager.GetActiveScene().buildIndex;
     }
     
     private void Start()
