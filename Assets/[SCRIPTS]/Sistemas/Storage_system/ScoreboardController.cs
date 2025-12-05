@@ -55,8 +55,7 @@ public class ScoreboardController : MonoBehaviour
             if (entryUI != null)
                 entryUI.Setup(r);
         }
-
-        // 🔥 FIX DEFINITIVO AL PARPADEO:
+        
         yield return null; // esperar 1 frame más
         Canvas.ForceUpdateCanvases();
         LayoutRebuilder.ForceRebuildLayoutImmediate(contentPanel);
@@ -74,5 +73,17 @@ public class ScoreboardController : MonoBehaviour
         {
             Debug.LogWarning("ScoreboardController: ScrollRect NO asignado en inspector.");
         }
+        
+    }
+    
+    public void OnClickClearScores()
+    {
+        // Borra el archivo JSON y todos los resultados
+        SaveManager.Instance.ClearAllResults();
+
+        // Recargar la escena actual (Scoreboard)
+        UnityEngine.SceneManagement.SceneManager.LoadScene(
+            UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex
+        );
     }
 }
