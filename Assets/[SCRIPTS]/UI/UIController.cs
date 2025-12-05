@@ -215,6 +215,11 @@ public class UIController : MonoBehaviour
         
         StartCoroutine(LoadLevelRoutine(buildIndex));
     }
+    public void OnQuitToMainMenuFromPause()
+    {
+        if (GameStateManager.Instance != null)
+            GameStateManager.Instance.SetState(GameState.Menu);
+    }
 
     private IEnumerator LoadLevelRoutine(int buildIndex)
     {
