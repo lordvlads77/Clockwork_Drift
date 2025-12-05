@@ -219,6 +219,8 @@ public class UIController : MonoBehaviour
     {
         if (GameStateManager.Instance != null)
             GameStateManager.Instance.SetState(GameState.Menu);
+        
+        SceneManager.LoadScene(0);
     }
 
     private IEnumerator LoadLevelRoutine(int buildIndex)
